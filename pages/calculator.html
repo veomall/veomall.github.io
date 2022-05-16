@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div class="form-group">
+      <h3>My first calculator</h3>
+      <p>I hope it works correctly</p>
+      <input type="text" class="form-control" id="a"> + <input type="text" class="form-control" id="b">
+    </div>
+    <button onclick="multi()" class="btn btn-primary">Calculate</button>
+    <p id="res"></p>
+    <script>
+      function multi(){
+        r = document.getElementById('res');
+        r.innerHTML = document.getElementById('a').value + document.getElementById('b').value;
+      }
+    </script>
+  </body>
+</html>
