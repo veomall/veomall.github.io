@@ -35,7 +35,10 @@ input {
 input:focus {
   width: 300px;
 }
-
+.group_name{
+  margin-top: 40px;
+  margin-left: 40px;
+}
 .game{
   border-radius: 40px;
   background: #76ff76;
