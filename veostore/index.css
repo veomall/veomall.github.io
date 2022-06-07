@@ -35,18 +35,29 @@ input {
 input:focus {
   width: 300px;
 }
-.group_name{
-  margin-top: 40px;
-  margin-left: 40px;
+.gamelink{
+  color: black;
+  text-decoration: none;
 }
 .game{
   border-radius: 40px;
   background: #76ff76;
-  width: 400px;
+  width: auto;
+  margin: 10px;
 }
 .game img{
   margin: 20px;
   border-radius: 20px;
   width: 170px;
   height: 170px;
+}
+.game h2{
+  position: relative;
+  top: -30px;
+  left: 20px;
+}
+.game p{
+  position: relative;
+  top: -40px;
+  left: 20px;
 }
