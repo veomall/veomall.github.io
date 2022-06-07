@@ -42,7 +42,7 @@ input:focus {
 .game{
   border-radius: 40px;
   background: #76ff76;
-  width: auto;
+  width: 210px;
   margin: 10px;
 }
 .game img{
