@@ -42,7 +42,8 @@ input:focus {
   background: #76ff76;
   text-decoration: none;
   width: 210px;
-  margin: 10px;
+  height: 310px;
+  margin: 15px;
 }
 .game img{
   margin: 20px;
@@ -52,11 +53,13 @@ input:focus {
 }
 .game h2{
   position: relative;
+  width: 170px;
   top: -30px;
   left: 20px;
 }
 .game p{
   position: relative;
+  width: 170px;
   top: -40px;
   left: 20px;
 }
