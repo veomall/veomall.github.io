@@ -1,154 +1,159 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Programming and Anime Love</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Veomall</title>
     <style>
-      .jumbotron {
-        background-image: url('anime-coding.jpg');
-        background-size: cover;
-        height: 500px;
+      * {
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+      }
+
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 0.5em;
+        background-color: #F5F5F5;
+      }
+      ::-webkit-scrollbar-thumb {
+        background-color: #000000;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background-color: #555555;
+      }
+
+      header {
+        background-color: #333;
         color: #fff;
-        text-shadow: 2px 2px #333;
-      }
-      .jumbotron h1 {
-        font-size: 48px;
-        text-align: center;
-        margin-top: 150px;
-      }
-      .jumbotron p {
-        font-size: 24px;
+        padding: 30px;
         text-align: center;
       }
-      .section-title {
+
+      header h1 {
         font-size: 36px;
-        text-align: center;
-        margin-top: 50px;
-        margin-bottom: 30px;
+        margin-bottom: 10px;
       }
-      .section-content {
-        font-size: 24px;
-        text-align: justify;
-        margin-bottom: 50px;
+
+      header p {
+        font-size: 18px;
+        margin-bottom: 10px;
+      }
+
+      header a {
+        color: #fff;
+        font-size: 18px;
+        margin-top: 20px;
+        text-decoration: none;
+      }
+
+      section {
+        background-color: #f2f2f2;
+        padding: 30px;
+        text-align: center;
+      }
+
+      section h2 {
+        font-size: 36px;
+        margin-bottom: 10px;
+      }
+
+      section p {
+        font-size: 18px;
+        margin-bottom: 10px;
+      }
+
+      section img {
+        width: 100%;
+        max-width: 500px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+      }
+
+      footer {
+        background-color: #333;
+        color: #fff;
+        padding: 30px;
+        text-align: center;
+      }
+
+      footer p {
+        font-size: 18px;
+        margin-bottom: 10px;
+      }
+
+      footer a {
+        color: #fff;
+        font-size: 18px;
+        margin-top: 20px;
+        text-decoration: none;
+      }
+
+      /* Project list styling */
+      ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+      li {
+        background-color: #eee;
+        margin: 0.5em 0;
+        padding: 1em;
+        text-align: left;
+      }
+
+      #project_info {
+        display: flex;
+      }
+
+      #description{
+        flex: 1;
+      }
+
+      #description h3{
+        font-size: 30px;
       }
     </style>
   </head>
   <body>
     <header>
-      <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <a class="navbar-brand" href="#">Programming and Anime Love</a>
-          </div>
-          <ul class="nav navbar-nav">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#about-programming">About Programming</a></li>
-            <li><a href="#about-anime">About Anime</a></li>
-            <li><a href="#why-both-are-important">Why Both are Important</a></li>
-            <li><a href="#contact">Contact Us</a></li>
-          </ul>
-        </div>
-      </nav>
+      <h1>Veomall</h1>
+      <p>Python Developer</p>
     </header>
 
-    <section id="home">
-      <div class="jumbotron">
-        <h1>Welcome to Programming and Anime Love</h1>
-        <p>A website dedicated to showcasing the love for both programming and anime.</p>
-      </div>
-      <div class="container">
-        <div class="row">
-          <div class="col-sm-4">
-            <h2 class="section-title">About Programming</h2>
-            <p class="section-content">
-              Programming is the process of creating instructions for a computer to perform specific tasks. It is an essential part of modern technology and is used in various industries such as software development, data analysis, and web design. 
-            </p>
-            <p class="section-content">
-              <strong>Popular programming languages:</strong><br>
-              - Python<br>
-              - Java<br>
-              - JavaScript<br>
-              - C++<br>
-              - C#
-            </p>
-            <p class="section-content">
-              <strong>Projects:</strong><br>
-              - Project 1<br>
-              - Project 2<br>
-              - Project 3
-            </p>
-            <p class="section-content">
-              <strong>Resources for learning programming:</strong><br>
-              - Codecademy<br>
-              - Udemy<br>
-              - Coursera<br>
-              - FreeCodeCamp
-            </p>
-          </div>
-          <div class="col-sm-4">
-            <h2 class="section-title">About Anime</h2>
-            <p class="section-content">
-              Anime is a form of Japanese animated entertainment featuring colorful characters, imaginative stories, and visually stunning landscapes. It has become popular all over the world and has a large following of fans. 
-            </p>
-            <p class="section-content">
-              <strong>Popular anime:</strong><br>
-              - Naruto<br>
-              - Attack on Titan<br>
-              - Death Note<br>
-              - One Piece<br>
-              - Fullmetal Alchemist
-            </p>
-            <p class="section-content">
-              <strong>Anime merchandise:</strong><br>
-              - Figurines<br>
-              - Posters<br>
-              - T-shirts<br>
-              - Keychains
-            </p>
-            <p class="section-content">
-              <strong>Resources for watching anime:</strong><br>
-              - Crunchyroll<br>
-              - Funimation<br>
-              - Hulu<br>
-              - Netflix
-            </p>
-          </div>
-          <div class="col-sm-4">
-            <h2 class="section-title">Why Both are Important</h2>
-            <p class="section-content">
-              Both programming and anime have a special place in the heart of the owner of this website. They both offer a unique form of expression and creativity, allowing for endless possibilities. 
-            </p>
-            <p class="section-content">
-              <strong>Comparison:</strong><br>
-              Both programming and anime require a certain level of creativity and imagination. However, programming requires a more analytical and logical approach, while anime has a more free-form and imaginative approach. 
-            </p>
-            <p class="section-content">
-              <strong>Using programming to create anime:</strong><br>
-              With the advancement of technology, programming can now be used to create anime. For example, animation software such as Blender can be used to create 3D animations, and game engines such as Unity can be used to create interactive anime games. 
-            </p>
-          </div>
-        </div>
-      </div>
+    <section id="about">
+      <h2>About Me</h2>
+      <p>Hi, I'm Veomall, a Python developer with experience in game development. I have a passion for programming and creating innovative and engaging experiences for users. My goal is to constantly improve my skills and create projects that challenge me to think outside the box.</p>
     </section>
 
-    <footer id="contact">
-      <div class="container">
-        <p class="text-center">Contact Us</p>
-        <p class="text-center">Email: programmingandanimelove@gmail.com</p>
-        <p class="text-center">
-          Follow Us on:
-          <a href="#">Facebook</a> |
-          <a href="#">Twitter</a> |
-          <a href="#">Instagram</a>
-        </p>
-        <p class="text-center">Copyright &copy; 2021 Programming and Anime Love</p>
-	</div>
-</footer>
+    <section id="projects">
+      <h2>Projects</h2>
+      <ul>
+        <li>A web application for tracking expenses</li>
+        <li>A game built using Pygame</li>
+        <li>A script for automating repetitive tasks</li>
+      </ul>
+    </section>
 
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-</body>
-</html>
+    <section id="recent_project">
+      <h2>Recent Project</h2>
+      <div id="project_info">
+        <div id="description">
+          <h3>Name</h3>
+          <p>A description of the project</p>
+        </div>
+        <img src="https://via.placeholder.com/500x300" alt="Project Screenshot">
+      </div>
+    </section>
+  
+    <footer>
+      <p>Copyright &copy; Veomall 2023</p>
+      <a href="#">Privacy Policy</a>
+    </footer>
+    </body>
+  </html>
+  
