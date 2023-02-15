@@ -93,19 +93,6 @@
         text-decoration: none;
       }
 
-      /* Project list styling */
-      ul {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-      }
-      li {
-        background-color: #eee;
-        margin: 0.5em 0;
-        padding: 1em;
-        text-align: left;
-      }
-
       #project_info {
         display: flex;
       }
@@ -118,6 +105,47 @@
       #description h3{
         font-size: 30px;
       }
+      
+      .container {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .item {
+        width: calc(33.33% - 20px);
+        margin: 10px;
+        padding: 10px;
+        background-color: #EEE;
+        border-radius: 5px;
+        box-shadow: 0 0 5px rgba(0,0,0,0.3);
+        transition: opacity 0.5s ease;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .show-more,
+      .show-less {
+        margin: 10px;
+        padding: 10px;
+        background-color: #444;
+        color: #FFF;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .show-more:hover,
+      .show-less:hover {
+        background-color: #444;
+      }
+
+      .show-more:focus,
+      .show-less:focus {
+        outline: none;
+      }
+
     </style>
   </head>
   <body>
@@ -144,17 +172,46 @@
 
     <section id="projects">
       <h2>Projects</h2>
-      <ul>
-        <li>A web application for tracking expenses</li>
-        <li>A game built using Pygame</li>
-        <li>A script for automating repetitive tasks</li>
-      </ul>
-    </section>
+      <div class="container">
+        <div class="item">
+          <h3>A web application for tracking expenses</h3>
+          <img src="http://via.placeholder.com/150x100" alt="A web application for tracking expenses">
+        </div>
+        <div class="item">A game built using Pygame</div>
+        <div class="item">A script for automating repetitive tasks</div>
+        <div class="item hidden">Another project</div>
+        <div class="item hidden">One more project</div>
+        <button class="show-more">Show More</button>
+        <button class="show-less hidden">Show Less</button>
+      </div> 
+    </section> 
   
     <footer>
       <p>Copyright &copy; Veomall 2023</p>
       <a href="#">Privacy Policy</a>
     </footer>
     </body>
+    <script>
+      const showMoreBtn = document.querySelector('.show-more');
+      const showLessBtn = document.querySelector('.show-less');
+      const hiddenItems = document.querySelectorAll('.hidden');
+
+      showMoreBtn.addEventListener('click', () => {
+        hiddenItems.forEach(item => {
+          item.classList.remove('hidden');
+        });
+        showMoreBtn.classList.add('hidden');
+        showLessBtn.classList.remove('hidden');
+      });
+
+      showLessBtn.addEventListener('click', () => {
+        hiddenItems.forEach(item => {
+          item.classList.add('hidden');
+        });
+        showMoreBtn.classList.remove('hidden');
+        showLessBtn.classList.add('hidden');
+      });
+
+    </script>
   </html>
   
