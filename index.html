@@ -1,49 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Veomall</title>
-  <link rel="icon" href="media/logo.png">
-  <link rel="stylesheet" href="project/index.css">
+ <title>Veomall</title>
+ <link rel="stylesheet" type="text/css" href="/project/index.css">
 </head>
 <body class="light-theme">
-  <header class="header">
-    <div class="header logo">
-      <img src="media/name_logo.png" alt="Logo">
-    </div>
-    <div class="header navigation">
-      <ul class="list">
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#blog">Blog</a></li>
-        <li><a href="#articles">Articles</a></li>
-        <li><a href="#contact">Contact</a></li>
-        <li><button class="button">Change Language</button></li>
-        <li><button class="button" id="theme-btn">Change Theme</button></li>
-      </ul>
-    </div>
-  </header>
-
-  <main class="content">
-
-  </main>
-
-  <div class="projects content">
+ <header class="header">
+  <a href="#top"><img src="/media/name_logo.png" alt="logo" class="name-logo"></a>
+  <ul>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#blog">Blog</a></li>
+    <li><a href="#articles">Articles</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><button id="theme-btn">theme</button></li>
+    <li><button>lang</button></li>
+  </ul>
+ </header>
+ <main>
+  <div class="main-content" id="top">
 
   </div>
 
-  <div class="blog content">
-
+  <div id="projects">
+    <h1>veomall</h1>
   </div>
 
-  <div class="articles content">
-
+  <div id="blog">
+    <h1>blog</h1>
   </div>
 
-  <div class="contact content">
+  <div id="articles">
+    <h1>Articles</h1>
+  </div>
 
+  <div id="contact">
+    <h1>Contact</h1>
   </div>
 
   <script src="/project/index.js"></script>
+ </main>
 </body>
 </html>
