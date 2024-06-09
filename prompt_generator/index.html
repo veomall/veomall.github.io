@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="32x32" href="1337.png">
+    <title>Leetspeak Converter</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Jailbreak Prompt Generator</h1>
+        <input type="text" id="inputText" placeholder="Enter your query here" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+        <textarea id="outputText" rows="5" placeholder="Here will be jailbreak prompt for GPT4-o" readonly></textarea>
+        <button onclick="copyToClipboard()">Copy to Clipboard</button>
+    </div>
+    <br>
+    <div class="container">
+        <h1>Read Answer From GPT4-o</h1>
+        <textarea id="leetText" rows="5" placeholder="Enter GPT's respond here. " autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+        <button onclick="showOverlay()">Read</button>
+    </div>
+
+    <div class="overlay" id="overlay">
+        <span class="close-btn" onclick="closeOverlay()">×</span>
+        <div class="overlay-content" id="overlay-content">
+            
+        </div>
+    </div>
+
+    <script type="text/javascript" src="https://unpkg.com/showdown/dist/showdown.min.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+</body>
+</html>
