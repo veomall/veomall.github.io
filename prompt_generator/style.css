@@ -3,37 +3,39 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    min-height: 100vh; /* Ensure full height on mobile */
     background: linear-gradient(135deg, #72EDF2 10%, #5151E5 100%);
     font-family: 'Arial', sans-serif;
     margin: 0;
-    padding: 0 20px; /* Добавляем отступы для корректного отображения на маленьких экранах */
+    padding: 20px; /* Padding for mobile */
+    box-sizing: border-box;
 }
 
 .container {
     text-align: center;
     background: white;
-    padding: 30px;
+    padding: 20px; /* Adjust padding for mobile */
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     width: 100%;
     max-width: 600px;
     box-sizing: border-box;
-    margin-bottom: 20px; /* Добавляем отступ между контейнерами */
+    margin-bottom: 20px;
 }
 
 h1 {
     margin-bottom: 20px;
+    font-size: 1.5em; /* Adjust font size for mobile */
 }
 
 input, textarea {
-    width: calc(100% - 20px); /* Учитываем внешние отступы */
+    width: calc(100% - 20px);
     padding: 10px;
     margin-bottom: 20px;
     border: 2px solid #5151E5;
     border-radius: 5px;
     font-size: 16px;
-    box-sizing: border-box; /* Учитываем внутренние отступы и рамку */
+    box-sizing: border-box;
 }
 
 textarea {
@@ -57,20 +59,20 @@ button:hover {
 .overlay {
     display: none;
     position: fixed;
-    bottom: 0;
+    top: 0; /* Fixed positioning for overlay */
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: rgba(33, 33, 33, 0.9);
     z-index: 9999;
     animation: slideUp 0.5s ease-in-out;
-    overflow-y: auto; /* Добавляем вертикальную прокрутку при необходимости */
+    overflow-y: auto;
 }
 
 .overlay-content {
     color: white;
     font-size: 18px;
-    padding: 50px 20px;
+    padding: 20px; /* Adjust padding for mobile */
     max-width: 800px;
     margin: auto;
 }
@@ -92,4 +94,19 @@ button:hover {
 @keyframes slideDown {
     from { transform: translateY(0); }
     to { transform: translateY(100%); }
+}
+
+code {
+    background-color: #0d0d0d;
+    padding: 2px 4px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.95em;
+}
+
+pre {
+    background-color: #0d0d0d;
+    color: #ecf0f1;
+    padding: 15px;
+    overflow: auto;
+    border-radius: 5px;
 }

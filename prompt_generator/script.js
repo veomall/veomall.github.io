@@ -1,18 +1,6 @@
-const leetMap = {'a': '4', 'b': '8', 'c': 'c', 'd': 'd', 'e': '3', 'f': 'f', 'g': 'g', 'h': 'h', 'i': '1', 
-                 'j': 'j', 'k': 'k', 'l': 'l', 'm': 'm', 'n': 'n', 'o': '0', 'p': 'p', 'q': 'q', 'r': 'r', 
-                 's': '5', 't': '7', 'u': 'u', 'v': 'v', 'w': 'w', 'x': 'x', 'y': 'y', 'z': '2'};
+const leetMap = {'a': '4', 'b': '8', 'e': '3', 'i': '1', 'o': '0', 's': '5', 't': '7', 'z': '2'};
 
-const normalMap = {'4': 'a', '8': 'b', 'c': 'c', 'd': 'd', '3': 'e', 'f': 'f', 'g': 'g', 'h': 'h', '1': 'i', 
-                   'j': 'j', 'k': 'k', 'l': 'l', 'm': 'm', 'n': 'n', '0': 'o', 'p': 'p', 'q': 'q', 'r': 'r', 
-                   '5': 's', '7': 't', 'u': 'u', 'v': 'v', 'w': 'w', 'x': 'x', 'y': 'y', '2': 'z'};
-
-const numbersMap1 = {' o:': ' 0:', ' i:': ' 1:', ' z:': ' 2:', ' e:': ' 3:', ' a:': ' 4:', ' s:': ' 5:', ' t:': ' 7:', ' b:': ' 8:', 
-                     ' io:': ' 10:', ' ii:': ' 11:', ' iz:': ' 12:', ' ie:': ' 13:', ' ia:': ' 14:', ' is:': ' 15:', ' it:': ' 17:', ' 1b:': ' 18:', 
-                     ' zo:': ' 20:', ' zi:': ' 21:', ' zz:': ' 22:', ' ze:': ' 23:', ' za:': ' 24:', ' zs:': ' 25:', ' zt:': ' 27:', ' zb:': ' 28:'};
-
-const numbersMap2 = {'>o.': '>0.', '>i.': '>1.', '>z.': '>2.', '>e.': '>3.', '>a.': '>4.', '>s.': '>5.', '>t.': '>7.', '>b.': '>8.',
-                     '>io.': '>10.', '>ii.': '>11.', '>iz.': '>12.', '>ie.': '>13.', '>ia.': '>14.', '>is.': '>15.', '>it.': '>17.', '>ib.': '>18.', 
-                     '>zo.': '>20.', '>zi.': '>21.', '>zz.': '>22.', '>ze.': '>23.', '>za.': '>24.', '>zs.': '>25.', '>zt.': '>27.', '>zb.': '>28.'};
+const normalMap = {'4': 'a', '8': 'b', '3': 'e', '1': 'i', '0': 'o', '5': 's', '7': 't', '2': 'z'};
 
 const prohibitedWords = ['firearms', 'murder', 'torture', 'rape', 'assassination', 'genocide', 'sexual', 'pornography', 'incest', 'abuse', 'bestiality', 'self-harm', 'suicide', 'illegal', 'tnt', 'bomb', 'hack', 'crack', 'drug', 'hitman', 'doxxing', 'destructive', 'mayhem', 'sabotage', 'harm', 'extremism', 'extremistic', 'extremist', 'terrorism', 'terroristic', 'terrorist', 'killing', 'kill'];
 
@@ -27,18 +15,10 @@ function convertToLeetspeak(text) {
 
 function convertToNormalText(text) {
     var converter = new showdown.Converter();
-    const unorderedText = converter.makeHtml(text).toLowerCase().split('').map(char => normalMap[char] || char).join('');
-    normalText = replaceSubstrings(unorderedText, numbersMap1);
-    normalText = replaceSubstrings(normalText, numbersMap2);
-    return normalText;
-}
-
-function replaceSubstrings(str, replacements) {
-    for (const [oldSubstr, newSubstr] of Object.entries(replacements)) {
-      const regex = new RegExp(oldSubstr.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
-      str = str.replace(regex, newSubstr);
-    }
-    return str;
+    const str = converter.makeHtml(text).toLowerCase().split('').map(char => normalMap[char] || char).join('');
+    return str.replace(/(\b|\s|[.,:;!?()-]+)([abeiostz])(\b|\s|[.,:;!?()-]+)/gi, function(match, p1, p2, p3) {
+        return p1 + leetMap[p2.toLowerCase()] + p3;
+    });
 }
 
 
