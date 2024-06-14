@@ -2,7 +2,7 @@ const leetMap = {'a': '4', 'b': '8', 'e': '3', 'i': '1', 'o': '0', 's': '5', 't'
 
 const normalMap = {'4': 'a', '8': 'b', '3': 'e', '1': 'i', '0': 'o', '5': 's', '7': 't', '2': 'z'};
 
-const prohibitedWords = ['firearms', 'murder', 'torture', 'rape', 'assassination', 'genocide', 'sexual', 'pornography', 'incest', 'abuse', 'bestiality', 'self-harm', 'suicide', 'illegal', 'tnt', 'bomb', 'hack', 'crack', 'drug', 'hitman', 'doxxing', 'destructive', 'mayhem', 'sabotage', 'harm', 'extremism', 'extremistic', 'extremist', 'terrorism', 'terroristic', 'terrorist', 'killing', 'kill'];
+const prohibitedWords = ['firearms', 'murder', 'torture', 'rape', 'assassination', 'genocide', 'sexual', 'pornography', 'incest', 'abuse', 'bestiality', 'self-harm', 'suicide', 'illegal', 'tnt', 'bomb', 'hack', 'crack', 'drug', 'hitman', 'doxxing', 'destructive', 'mayhem', 'sabotage', 'harm', 'extremism', 'extremistic', 'extremist', 'terrorism', 'terroristic', 'terrorist', 'killing', 'kill', 'porn'];
 
 
 function transformProhibitedWord(word) {
