@@ -3,19 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Markdown Viewer</title>
+    <title>Veomall's Blog</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <nav>
-        <div class="nav-content">
-            <a href="#" class="nav-logo">Markdown Viewer</a>
+    <header>
+        <nav>
+            <div class="logo">Veomall</div>
             <div class="nav-links">
-                <a href="#" class="active">Home</a>
-                <a href="#">Blog</a>
+                <a href="#projects" class="lang-project">Projects</a>
+                <a href="#blog" class="lang-blog">Blog</a>
+                <a href="#contact" class="lang-contact">Contact</a>
+                <button id="themeToggle" class="lang-theme"><i class="fas fa-moon"></i></button>
+                <button id="langToggle" class="lang-switch">EN</button>
             </div>
-        </div>
-    </nav>
+        </nav>
+    </header>
     <div id="card-container"></div>
     <div id="reader" class="hidden">
         <div id="reader-header">
