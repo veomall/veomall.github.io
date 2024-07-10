@@ -3,97 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Heorhi Prystrom - Python Developer</title>
+    <title>Veomall - Personal Site</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="#cv" class="nav-link">About Me</a>
-            <a href="#projects" class="nav-link">Projects</a>
-            <a href="#blog" class="nav-link">Blog</a>
-            <a href="#contact" class="nav-link">Contact</a>
+<body class="dark-theme">
+    <header>
+        <nav>
+            <div class="logo">Veomall</div>
+            <div class="nav-links">
+                <a href="#projects" class="lang-project">Projects</a>
+                <a href="#blog" class="lang-blog">Blog</a>
+                <a href="#contact" class="lang-contact">Contact</a>
+                <button id="themeToggle" class="lang-theme"><i class="fas fa-moon"></i></button>
+                <button id="langToggle" class="lang-switch">EN</button>
+            </div>
+        </nav>
+    </header>
+    <div class="main-content">
+        <div class="card">
+            <img src="media\photo.png" alt="Your Name">
+            <div class="card-content">
+                <h1 class="lang-name">Your Name</h1>
+                <p class="brief-description lang-brief">A brief description about you goes here.</p>
+                <p class="full-description lang-full">A full, detailed description about you goes here. This can include your background, skills, interests, and any other relevant information you'd like to share.</p>
+            </div>
+            <button class="expand-btn"><i class="fas fa-chevron-right"></i></button>
         </div>
-    </nav>
-
-    <!-- Mini CV Section -->
-    <section id="cv" class="height-screen">
-        <div class="cv-card">
-            <img src="path/to/your-photo.jpg" alt="Heorhi Prystrom" class="cv-photo">
-            <div class="cv-info">
-                <h1>Heorhi Prystrom</h1>
-                <p>Python Software Developer with extensive experience in developing scalable web applications and services...</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Projects Section -->
-    <section id="projects">
-        <h2>Projects</h2>
-        <div class="card-container">
-            <div class="card" onclick="window.open('https://github.com/your-project-1')">
-                <img src="path/to/project1-photo.jpg" alt="Project 1">
-                <div class="card-content">
-                    <h3>Project 1</h3>
-                    <p>Short description of project 1...</p>
+    </div>
+    <section class="projects">
+        <div class="project-container">
+            <h2 class="lang-current-project">Current Project</h2>
+            <div class="project-card current-project">
+                <img src="media\photo.png" alt="Current Project">
+                <div class="project-info">
+                    <h3>Current Project Name</h3>
+                    <p>Brief description of the current project.</p>
+                    <a href="https://github.com/yourusername/current-project" class="github-link">View on GitHub</a>
                 </div>
             </div>
-            <div class="card" onclick="window.open('https://github.com/your-project-2')">
-                <img src="path/to/project2-photo.jpg" alt="Project 2">
-                <div class="card-content">
-                    <h3>Project 2</h3>
-                    <p>Short description of project 2...</p>
+            
+            <h2 class="lang-recent-projects">Recent Projects</h2>
+            <div class="recent-projects">
+                <div class="project-card">
+                    <img src="media\photo.png" alt="Project 1">
+                    <div class="project-info">
+                        <h3>Project 1 Name</h3>
+                        <p>Brief description of project 1.</p>
+                        <a href="https://github.com/yourusername/project1" class="github-link">View on GitHub</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <img src="media\photo.png" alt="Project 2">
+                    <div class="project-info">
+                        <h3>Project 2 Name</h3>
+                        <p>Brief description of project 2.</p>
+                        <a href="https://github.com/yourusername/project2" class="github-link">View on GitHub</a>
+                    </div>
                 </div>
             </div>
-            <div class="card" onclick="window.open('https://github.com/your-project-3')">
-                <img src="path/to/project3-photo.jpg" alt="Project 3">
-                <div class="card-content">
-                    <h3>Project 3</h3>
-                    <p>Short description of project 3...</p>
-                </div>
-            </div>
-        </div>
-        <button onclick="window.location.href='https://github.com/your-github'">See More</button>
-    </section>
-
-    <!-- Blog Posts Section -->
-    <section id="blog">
-        <h2>Blog Posts</h2>
-        <div class="card-container">
-            <div class="card" onclick="window.location.href='https://your-blog-link-1'">
-                <img src="path/to/blog1-photo.jpg" alt="Blog Post 1">
-                <div class="card-content">
-                    <h3>Blog Post 1</h3>
-                    <p>Short description of blog post 1...</p>
-                </div>
-            </div>
-            <div class="card" onclick="window.location.href='https://your-blog-link-2'">
-                <img src="path/to/blog2-photo.jpg" alt="Blog Post 2">
-                <div class="card-content">
-                    <h3>Blog Post 2</h3>
-                    <p>Short description of blog post 2...</p>
-                </div>
-            </div>
-            <div class="card" onclick="window.location.href='https://your-blog-link-3'">
-                <img src="path/to/blog3-photo.jpg" alt="Blog Post 3">
-                <div class="card-content">
-                    <h3>Blog Post 3</h3>
-                    <p>Short description of blog post 3...</p>
-                </div>
-            </div>
+            
+            <a href="#all-projects" class="view-all-projects lang-view-all">View All Projects</a>
         </div>
     </section>
 
-    <!-- Footer Section -->
-    <footer id="contact">
-        <div class="footer-container">
-            <a href="https://www.linkedin.com/in/your-linkedin" target="_blank">LinkedIn</a>
-            <a href="https://github.com/your-github" target="_blank">GitHub</a>
-            <a href="mailto:your-email@example.com">Email</a>
-        </div>
-    </footer>
-
-    <script src="scripts.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
