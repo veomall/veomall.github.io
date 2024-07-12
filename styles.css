@@ -122,6 +122,11 @@ nav {
     color: var(--purple);
 }
 
+.logo a {
+    text-decoration: none;
+    color: var(--fg);
+}
+
 .nav-links {
     display: flex;
     gap: 1rem;
@@ -152,6 +157,11 @@ nav {
 ----  MAIN  ----
 */
 
+.info {
+    padding: 0;
+    background-color: var(--bg);
+}
+
 .main-content {
     min-height: 100vh;
     display: flex;
@@ -162,28 +172,31 @@ nav {
 .card {
     background-color: var(--comment);
     border-radius: 10px;
-    padding: 2rem;
     display: flex;
-    gap: 2rem;
     width: 600px;
     position: relative;
     transition: width 0.3s ease;
+    overflow: visible; /* Changed from hidden to visible */
+    margin-right: 20px; /* Add margin to accommodate the button */
 }
-  
+
 .card.expanded {
     width: 800px;
 }
 
 .card img {
-    width: 300px;
-    height: 300px;
+    width: 200px;
+    height: 100%;
     object-fit: cover;
-    border-radius: 20px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
 }
 
 .card-content {
     display: flex;
     flex-direction: column;
+    padding: 2rem;
+    flex: 1;
 }
 
 .card h1 {
@@ -210,6 +223,7 @@ nav {
     justify-content: center;
     align-items: center;
     transition: background-color 0.3s, transform 0.3s;
+    z-index: 10; /* Ensure button is above other elements */
 }
 
 .expand-btn:hover {
