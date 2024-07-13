@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     const expandBtn = document.querySelector('.expand-btn');
-    const briefDescription = document.querySelector('.brief-description');
-    const fullDescription = document.querySelector('.full-description');
-    const detailedDescription = document.querySelector('.detailed-description');
+    const briefDescription = document.querySelector('.lang-brief-description');
+    const fullDescription = document.querySelector('.lang-full-description');
+    const detailedDescription = document.querySelector('.lang-detailed-description');
     const themeToggle = document.getElementById('themeToggle');
     const langToggle = document.getElementById('langToggle');
     const body = document.body;
@@ -75,8 +75,9 @@ document.addEventListener('DOMContentLoaded', () => {
             blog: 'Blog',
             contact: 'Contact',
             name: 'HEORHI PRYSTROM',
-            brief: 'A brief description about you goes here.',
-            full: 'A full, detailed description about you goes here. This can include your background, skills, interests, and any other relevant information you\'d like to share.',
+            'brief-description': 'A brief description about you goes here.',
+            'full-description': 'A full, detailed description about you goes here. This can include your background, skills, interests, and any other relevant information you\'d like to share.',
+            'detailed-description': 'An even more detailed description goes here. This can include your life story, career journey, major achievements, and future aspirations.',
             'current-project': 'Current Project',
             'recent-projects': 'Recent Projects',
             'view-all': 'View All Projects',
@@ -90,8 +91,9 @@ document.addEventListener('DOMContentLoaded', () => {
             blog: 'Блог',
             contact: 'Контакты',
             name: 'Ваше Имя',
-            brief: 'Краткое описание о вас.',
-            full: 'Полное, подробное описание о вас. Это может включать вашу биографию, навыки, интересы и любую другую соответствующую информацию, которой вы хотите поделиться.',
+            'brief-description': 'Краткое описание о вас.',
+            'full-description': 'Полное, подробное описание о вас. Это может включать вашу биографию, навыки, интересы и любую другую соответствующую информацию, которой вы хотите поделиться.',
+            'detailed-description': 'Более подробное описание можно найти здесь. Это может быть история вашей жизни, карьерный путь, основные достижения и стремления на будущее.',
             'current-project': 'Текущий Проект',
             'recent-projects': 'Недавние Проекты',
             'view-all': 'Посмотреть Все Проекты',
@@ -105,8 +107,9 @@ document.addEventListener('DOMContentLoaded', () => {
             blog: 'Блог',
             contact: 'Кантакты',
             name: 'Ваша Імя',
-            brief: 'Кароткае апісанне пра вас.',
-            full: 'Поўнае, падрабязнае апісанне пра вас. Гэта можа ўключаць вашу біяграфію, навыкі, інтарэсы і любую іншую адпаведную інфармацыю, якой вы хочаце падзяліцца.',
+            'brief-description': 'Кароткае апісанне пра вас.',
+            'full-description': 'Поўнае, падрабязнае апісанне пра вас. Гэта можа ўключаць вашу біяграфію, навыкі, інтарэсы і любую іншую адпаведную інфармацыю, якой вы хочаце падзяліцца.',
+            'detailed-description': 'Больш падрабязнае апісанне можна знайсці тут. Гэта можа быць гісторыя вашай жыцця, кар\'ерны шлях, асноўныя дасягненні і імкнення на будучыню.',
             'current-project': 'Бягучы Праект',
             'recent-projects': 'Нядаўнія Праекты',
             'view-all': 'Паглядзець Усе Праекты',
@@ -122,7 +125,15 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('[class*="lang-"]').forEach(elem => {
             const key = elem.className.split('lang-')[1];
             if (languages[currentLang][key]) {
-                elem.textContent = languages[currentLang][key];
+                elem.style.opacity = '0';
+                setTimeout(() => {
+                    elem.textContent = languages[currentLang][key];
+                    elem.classList.add('lang-animating');
+                    elem.style.opacity = '1';
+                }, 200);
+                elem.addEventListener('animationend', () => {
+                    elem.classList.remove('lang-animating');
+                }, {once: true});
             }
         });
     }

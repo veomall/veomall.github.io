@@ -52,6 +52,43 @@ body.light-theme {
     --comment: #6272a4;
 }
 
+.theme-transition-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: var(--new-theme-bg);
+    clip-path: circle(0% at var(--x) var(--y));
+    transition: clip-path 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0; /* Hide the overlay by default */
+}
+
+body.animating-theme .theme-transition-overlay {
+    opacity: 1; /* Show the overlay during animation */
+}
+
+body.light-theme {
+    --current-theme-bg: #282a36;
+    --new-theme-bg: #f8f8f2;
+}
+
+body:not(.light-theme) {
+    --current-theme-bg: #f8f8f2;
+    --new-theme-bg: #282a36;
+}
+
+body.animating-theme {
+    transition: none;
+}
+
+/* Transition for color changes */
+body, .card, .nav-links a, .expand-btn, .project-card, .blog-card {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
 .section-heading {
     text-align: center;
     color: var(--purple);
@@ -77,6 +114,21 @@ body.light-theme {
 .view-all-projects:hover, .view-all-posts:hover {
     background-color: var(--cyan);
     color: var(--bg); /* Assuming var(--bg) is the background color */
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+  
+.lang-animating {
+    animation: fadeInUp 0.5s ease-out;
 }
 
 /*
@@ -233,11 +285,11 @@ nav {
     font-size: 45px;
 }
 
-.brief-description, .full-description, .detailed-description {
+.lang-brief-description, .lang-full-description, .lang-detailed-description {
     transition: opacity 0.5s ease;
 }
 
-.full-description, .detailed-description {
+.lang-full-description, .lang-detailed-description {
     display: none;
     opacity: 0;
 }
@@ -302,7 +354,7 @@ nav {
     padding: 4rem 0;
 }
 
-.project-container {
+.project-container {    
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
