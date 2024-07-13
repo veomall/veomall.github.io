@@ -173,23 +173,39 @@ nav {
     background-color: var(--comment);
     border-radius: 10px;
     display: flex;
-    width: 600px;
+    width: 700px;
     position: relative;
-    transition: width 0.3s ease;
-    overflow: visible; /* Changed from hidden to visible */
-    margin-right: 20px; /* Add margin to accommodate the button */
+    transition: all 0.5s ease; /* Increased duration for smoother animation */
+    overflow: visible;
+    margin-right: 20px;
 }
 
 .card.expanded {
-    width: 800px;
+    width: 900px;
 }
 
-.card img {
-    width: 200px;
+.card.fully-expanded {
+    width: 900px;
+    height: 500px; /* Adjust as needed */
+    flex-direction: column;
+}
+
+.card-image {
+    width: 300px;
     height: 100%;
     object-fit: cover;
+    transition: all 0.5s ease; /* Increased duration for smoother animation */
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
+}
+
+.card.fully-expanded .card-image {
+    width: 70px; /* Reduced size */
+    height: 70px; /* Reduced size */
+    border-radius: 50%;
+    position: absolute;
+    top: 20px;
+    left: 20px;
 }
 
 .card-content {
@@ -197,15 +213,33 @@ nav {
     flex-direction: column;
     padding: 2rem;
     flex: 1;
+    transition: all 0.5s ease; /* Increased duration for smoother animation */
+}
+
+.card.fully-expanded .card-content {
+    padding-top: 120px; /* Adjusted to accommodate smaller image */
 }
 
 .card h1 {
     color: var(--green);
-    margin: 0 0 0.5rem 0;
+    margin: 0 0 0 0;
+    transition: all 0.5s ease; /* Increased duration for smoother animation */
 }
 
-.card p {
-    margin: 0;
+.card.fully-expanded h1 {
+    position: absolute;
+    top: 30px; /* Adjusted for smaller image */
+    left: 110px; /* Adjusted for smaller image */
+    font-size: 45px;
+}
+
+.brief-description, .full-description, .detailed-description {
+    transition: opacity 0.5s ease;
+}
+
+.full-description, .detailed-description {
+    display: none;
+    opacity: 0;
 }
 
 .expand-btn {
@@ -223,21 +257,41 @@ nav {
     justify-content: center;
     align-items: center;
     transition: background-color 0.3s, transform 0.3s;
-    z-index: 10; /* Ensure button is above other elements */
+    z-index: 10;
 }
 
 .expand-btn:hover {
     background-color: var(--pink);
-    transform: translateY(-50%) scale(1.1);
 }
 
 .expand-btn i {
     color: var(--fg);
     font-size: 1.2rem;
+    transition: transform 0.5s ease; /* Increased duration for smoother animation */
 }
 
-.full-description {
-    display: none;
+.card.expanded .expand-btn i {
+    transform: rotate(90deg);
+}
+
+.card.fully-expanded .expand-btn i {
+    transform: rotate(180deg);
+}
+
+/* Animation for transition from expanded to fully expanded */
+@keyframes fullExpand {
+    0% {
+        height: 300px;
+        flex-direction: column;
+    }
+    100% {
+        height: 500px;
+        flex-direction: column;
+    }
+}
+
+.card.fully-expanded {
+    animation: fullExpand 0.5s ease forwards;
 }
 
 /*

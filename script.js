@@ -2,26 +2,42 @@ document.addEventListener('DOMContentLoaded', () => {
     const expandBtn = document.querySelector('.expand-btn');
     const briefDescription = document.querySelector('.brief-description');
     const fullDescription = document.querySelector('.full-description');
+    const detailedDescription = document.querySelector('.detailed-description');
     const themeToggle = document.getElementById('themeToggle');
     const langToggle = document.getElementById('langToggle');
     const body = document.body;
     const card = document.querySelector('.card');
 
-    let isExpanded = false;
+    let state = 0; // 0: initial, 1: expanded, 2: fully expanded
 
     expandBtn.addEventListener('click', () => {
-        if (isExpanded) {
-            briefDescription.style.display = 'block';
-            fullDescription.style.display = 'none';
-            expandBtn.style.transform = 'translateY(-50%) rotate(0deg)';
-            card.classList.remove('expanded');
-        } else {
-            briefDescription.style.display = 'none';
-            fullDescription.style.display = 'block';
-            expandBtn.style.transform = 'translateY(-50%) rotate(180deg)';
-            card.classList.add('expanded');
+        state = (state + 1) % 3;
+    
+        switch(state) {
+            case 0:
+                card.classList.remove('expanded', 'fully-expanded');
+                briefDescription.style.display = 'block';
+                fullDescription.style.display = 'none';
+                detailedDescription.style.display = 'none';
+                break;
+            case 1:
+                card.classList.add('expanded');
+                card.classList.remove('fully-expanded');
+                briefDescription.style.display = 'none';
+                fullDescription.style.display = 'block';
+                detailedDescription.style.display = 'none';
+                setTimeout(() => fullDescription.style.opacity = 1, 50);
+                break;
+            case 2:
+                card.classList.add('fully-expanded');
+                setTimeout(() => {
+                    briefDescription.style.display = 'none';
+                    fullDescription.style.display = 'none';
+                    detailedDescription.style.display = 'block';
+                    setTimeout(() => detailedDescription.style.opacity = 1, 50);
+                }, 250); // Wait for half of the animation duration before changing content
+                break;
         }
-        isExpanded = !isExpanded;
     });
 
     themeToggle.addEventListener('click', () => {
@@ -36,13 +52,29 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const targetId = this.getAttribute('href').substring(1);
+            const targetElement = document.getElementById(targetId);
+
+            if (targetElement) {
+                window.scrollTo({
+                    top: targetElement.offsetTop - 100, // Adjust this value as needed
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+
     const languages = {
         en: {
             switch: 'EN',
             project: 'Projects',
             blog: 'Blog',
             contact: 'Contact',
-            name: 'Your Name',
+            name: 'HEORHI PRYSTROM',
             brief: 'A brief description about you goes here.',
             full: 'A full, detailed description about you goes here. This can include your background, skills, interests, and any other relevant information you\'d like to share.',
             'current-project': 'Current Project',
