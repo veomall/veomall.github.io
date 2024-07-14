@@ -10,24 +10,35 @@
 <body>
     <header>
         <nav>
-            <div class="logo">Veomall</div>
+            <div class="logo"><a href="#info">Veomall</a></div>
             <div class="nav-links">
-                <a href="#projects" class="lang-project">Projects</a>
-                <a href="#blog" class="lang-blog">Blog</a>
-                <a href="#contact" class="lang-contact">Contact</a>
                 <button id="themeToggle" class="lang-theme"><i class="fas fa-moon"></i></button>
                 <button id="langToggle" class="lang-switch">EN</button>
             </div>
         </nav>
     </header>
-    <div id="card-container"></div>
-    <div id="reader" class="hidden">
-        <div id="reader-header">
-            <span id="reader-title"></span>
-            <button id="close-reader"></button>
+
+    <main id="blogEntries" class="blog">
+        <div class="blog-container">
+            <div class="blog-cards">
+                <!-- Blog entry cards will be dynamically inserted here -->
+            </div>
         </div>
-        <div id="reader-content"></div>
-    </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="social-links">
+                <a href="https://x.com/veomall" class="social-icon"><i class="fab fa-twitter"></i></a>
+                <a href="https://github.com/veomall" class="social-icon"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/veomall/" class="social-icon"><i class="fab fa-linkedin"></i></a>
+            </div>
+            <div class="contact-info">
+                <p class="lang-email" data-lang="email">heorhiprystrom@gmail.com</p>
+            </div>
+        </div>
+    </footer>
+
     <script src="script.js"></script>
 </body>
 </html>

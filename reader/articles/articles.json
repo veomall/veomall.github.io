@@ -1,0 +1,23 @@
+[
+    {
+        "title": "My First Blog Post",
+        "excerpt": "This is a short excerpt from my first blog post. It can be longer than what's shown on the card, as it will be truncated with an ellipsis. Here's a preview of another fascinating article. The excerpt can be of varying length, and the card will always show only a portion of it.",
+        "file": "post1",
+        "date": "July 14, 2024",
+        "image": "articles/post1.png"
+    },
+    {
+        "title": "Another Interesting Article",
+        "excerpt": "Here's a preview of another fascinating article. The excerpt can be of varying length, and the card will always show only a portion of it.",
+        "file": "post2",
+        "date": "July 15, 2024",
+        "image": "articles/post2.png"
+    },
+    {
+        "title": "Third Interesting Article",
+        "excerpt": "Here's a preview of another fascinating article. The excerpt can be of varying length, and the card will always show only a portion of it.",
+        "file": "post3",
+        "date": "July 16, 2024",
+        "image": "articles/post3.png"
+    }
+]

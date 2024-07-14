@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My First Blog Post</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo"><a href="#info">Veomall</a></div>
+            <div class="nav-links">
+                <button id="themeToggle" class="lang-theme"><i class="fas fa-moon"></i></button>
+                <button id="langToggle" class="lang-switch">EN</button>
+            </div>
+        </nav>
+    </header>
+
+    <div class="md">
+        <div id="content"></div>
+        <script>
+            function markdownToHtml(markdown) {
+                function escapeHtml(text) {
+                    return text
+                        .replace(/&/g, "&amp;")
+                        .replace(/</g, "&lt;")
+                        .replace(/>/g, "&gt;")
+                        .replace(/"/g, "&quot;")
+                        .replace(/'/g, "&#039;");
+                }
+
+                function convertInlineElements(text) {
+                    text = text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+                    text = text.replace(/\*(.*?)\*/g, "<em>$1</em>");
+                    text = text.replace(/`(.*?)`/g, "<code>$1</code>");
+                    text = text.replace(/\[(.*?)\]\((.*?)\)/g, "<a href=\"$2\">$1</a>");
+                    return text;
+                }
+
+                let html = "";
+                const lines = markdown.split("\n");
+                let inCodeBlock = false;
+                let inBlockQuote = false;
+                let inOrderedList = false;
+                let inUnorderedList = false;
+
+                for (let i = 0; i < lines.length; i++) {
+                    let line = lines[i].trim();
+
+                    if (line.startsWith("```")) {
+                        if (inCodeBlock) {
+                            html += "</code></pre></div>\n";
+                            inCodeBlock = false;
+                        } else {
+                            const lang = line.slice(3).trim();
+                            html += `<div class="code-block"><pre><code class="language-${lang}">`;
+                            inCodeBlock = true;
+                        }
+                        continue;
+                    }
+
+                    if (inCodeBlock) {
+                        html += escapeHtml(line) + "\n";
+                        continue;
+                    }
+
+                    if (line.startsWith("#")) {
+                        const level = line.match(/^#+/)[0].length;
+                        const text = line.replace(/^#+\s*/, "");
+                        html += `<h${level}>${convertInlineElements(text)}</h${level}>\n`;
+                        continue;
+                    }
+
+                    if (line.match(/^(-{3,}|\*{3,})$/)) {
+                        html += "<hr>\n";
+                        continue;
+                    }
+
+                    if (line.startsWith(">")) {
+                        if (!inBlockQuote) {
+                            html += "<blockquote>\n";
+                            inBlockQuote = true;
+                        }
+                        html += `<p>${convertInlineElements(line.slice(1).trim())}</p>\n`;
+                    } else if (inBlockQuote) {
+                        html += "</blockquote>\n";
+                        inBlockQuote = false;
+                    }
+
+                    if (line.match(/^\d+\./)) {
+                        if (!inOrderedList) {
+                            html += "<ol>\n";
+                            inOrderedList = true;
+                        }
+                        html += `<li>${convertInlineElements(line.replace(/^\d+\.\s*/, ""))}</li>\n`;
+                    } else if (inOrderedList) {
+                        html += "</ol>\n";
+                        inOrderedList = false;
+                    }
+
+                    if ((line.startsWith("- ") || line.startsWith("* ")) && !line.startsWith("- [ ] ") && !line.startsWith("- [x] ")) {
+                        if (!inUnorderedList) {
+                            html += "<ul>\n";
+                            inUnorderedList = true;
+                        }
+                        html += `<li>${convertInlineElements(line.slice(2))}</li>\n`;
+                    } else if (inUnorderedList) {
+                        html += "</ul>\n";
+                        inUnorderedList = false;
+                    }
+
+                    // Add checkbox handling
+                    if (line.startsWith("- [ ] ") || line.startsWith("- [x] ")) {
+                        const checked = line.startsWith("- [x] ");
+                        const text = line.slice(6);
+                        html += `<div class="checkbox-item">
+                                    <input type="checkbox" ${checked ? 'checked' : ''} disabled>
+                                    <span>${convertInlineElements(text)}</span>
+                                </div>\n`;
+                        continue;
+                    }
+
+                    if (line !== "" && !inBlockQuote && !inOrderedList && !inUnorderedList) {
+                        html += `<p>${convertInlineElements(line)}</p>\n`;
+                    }
+                }
+
+                if (inCodeBlock) html += "</code></pre>\n";
+                if (inBlockQuote) html += "</blockquote>\n";
+                if (inOrderedList) html += "</ol>\n";
+                if (inUnorderedList) html += "</ul>\n";
+
+                return html.trim();
+            }
+            fetch('post1.md')
+                .then(response => response.text())
+                .then(text => {
+                    document.getElementById('content').innerHTML = markdownToHtml(text);
+                });
+        </script>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+        <div class="social-links">
+            <a href="https://x.com/veomall" class="social-icon"><i class="fab fa-twitter"></i></a>
+            <a href="https://github.com/veomall" class="social-icon"><i class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/veomall/" class="social-icon"><i class="fab fa-linkedin"></i></a>
+        </div>
+        <div class="contact-info">
+            <p class="lang-email">heorhiprystrom@gmail.com</p>
+        </div>
+        </div>
+    </footer>
+</body>
+</html>

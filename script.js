@@ -1,4 +1,35 @@
 document.addEventListener('DOMContentLoaded', () => {
+    async function setLanguageBasedOnLocation() {
+        try {
+            const response = await fetch('https://ipapi.co/json/');
+            const data = await response.json();
+            const country = data.country_code.toLowerCase();
+
+            console.log(country);
+            
+            // Map country codes to languages
+            const countryLanguageMap = {
+                'ru': 'ru', // Russia
+                'by': 'be', // Belarus
+                // Add more country-language mappings as needed
+            };
+            
+            // Set the language based on the country, default to English
+            currentLang = countryLanguageMap[country] || 'en';
+            
+            // Update the language toggle button text
+            langToggle.textContent = languages[currentLang].switch;
+            
+            // Update the page content
+            updateLanguage();
+        } catch (error) {
+            console.error('Error fetching location:', error);
+            // Default to English if there's an error
+            currentLang = 'en';
+            updateLanguage();
+        }
+    }
+
     const expandBtn = document.querySelector('.expand-btn');
     const briefDescription = document.querySelector('.lang-brief-description');
     const fullDescription = document.querySelector('.lang-full-description');
@@ -119,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    let currentLang = 'en';
+    setLanguageBasedOnLocation();
 
     function updateLanguage() {
         document.querySelectorAll('[class*="lang-"]').forEach(elem => {
@@ -139,7 +170,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     langToggle.addEventListener('click', () => {
-        currentLang = currentLang === 'en' ? 'ru' : (currentLang === 'ru' ? 'be' : 'en');
+        const langs = ['en', 'ru', 'be'];
+        const currentIndex = langs.indexOf(currentLang);
+        currentLang = langs[(currentIndex + 1) % langs.length];
         langToggle.textContent = languages[currentLang].switch;
         updateLanguage();
     });
