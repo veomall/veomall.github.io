@@ -1,3 +1,5 @@
+let currentLang;
+
 document.addEventListener('DOMContentLoaded', () => {
     async function setLanguageBasedOnLocation() {
         try {
@@ -39,6 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const body = document.body;
     const card = document.querySelector('.card');
 
+    setLanguageBasedOnLocation();
+
     let state = 0; // 0: initial, 1: expanded, 2: fully expanded
 
     expandBtn.addEventListener('click', () => {
@@ -66,9 +70,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     fullDescription.style.display = 'none';
                     detailedDescription.style.display = 'block';
                     setTimeout(() => detailedDescription.style.opacity = 1, 50);
-                }, 250); // Wait for half of the animation duration before changing content
+                }, 250);
                 break;
         }
+        updateLanguage(); // Add this line to update all descriptions
     });
 
     themeToggle.addEventListener('click', () => {
@@ -104,10 +109,9 @@ document.addEventListener('DOMContentLoaded', () => {
             switch: 'EN',
             project: 'Projects',
             blog: 'Blog',
-            contact: 'Contact',
             name: 'HEORHI PRYSTROM',
-            'brief-description': 'A brief description about you goes here.',
-            'full-description': 'A full, detailed description about you goes here. This can include your background, skills, interests, and any other relevant information you\'d like to share.',
+            'brief-description': 'Software and Web developer. I am currently studying at the university. I studied programming on my own and for free — without mentors and any paid courses.',
+            'full-description': 'I am a young and ambitious Software Developer and Back-end developer. I am currently studying at the Belarusian State University of Informatics and Radioelectronics, combining my studies with work on my projects. I specialize in Python development and am interested in neural networks. I write about them in my blog and not only.',
             'detailed-description': 'An even more detailed description goes here. This can include your life story, career journey, major achievements, and future aspirations.',
             'current-project': 'Current Project',
             'recent-projects': 'Recent Projects',
@@ -120,10 +124,9 @@ document.addEventListener('DOMContentLoaded', () => {
             switch: 'RU',
             project: 'Проекты',
             blog: 'Блог',
-            contact: 'Контакты',
-            name: 'Ваше Имя',
-            'brief-description': 'Краткое описание о вас.',
-            'full-description': 'Полное, подробное описание о вас. Это может включать вашу биографию, навыки, интересы и любую другую соответствующую информацию, которой вы хотите поделиться.',
+            name: 'Георгий Пристром',
+            'brief-description': 'Software и Web разработчик. На сегодняшний день учусь в университете. Программировать учился самостоятельно и бесплатно — без наставников и каких-либо платных курсов.',
+            'full-description': 'Я молодой и амбициозный разработчик Программного Обеспечения и Back-end разработчик. В настоящее время я учусь в Белорусском государственном университете информатики и радиоэлектроники, совмещая учебу с работой над своими проектами. Я специализируюсь на разработке на Python и интересуюсь нейросетями. В блоге пишу про них и не только.',
             'detailed-description': 'Более подробное описание можно найти здесь. Это может быть история вашей жизни, карьерный путь, основные достижения и стремления на будущее.',
             'current-project': 'Текущий Проект',
             'recent-projects': 'Недавние Проекты',
@@ -136,10 +139,9 @@ document.addEventListener('DOMContentLoaded', () => {
             switch: 'BE',
             project: 'Праекты',
             blog: 'Блог',
-            contact: 'Кантакты',
-            name: 'Ваша Імя',
-            'brief-description': 'Кароткае апісанне пра вас.',
-            'full-description': 'Поўнае, падрабязнае апісанне пра вас. Гэта можа ўключаць вашу біяграфію, навыкі, інтарэсы і любую іншую адпаведную інфармацыю, якой вы хочаце падзяліцца.',
+            name: 'Георгі Прыстром',
+            'brief-description': 'Software і Web распрацоўшчык. На сённяшні дзень вучуся ва ўніверсітэце. Праграмаваць вучыўся самастойна і бясплатна-без настаўнікаў і якіх-небудзь платных курсаў.',
+            'full-description': 'Я малады і амбіцыйны распрацоўшчык праграмнага забеспячэння і Back-end распрацоўшчык. У цяперашні час я вучуся ў Беларускім дзяржаўным універсітэце інфарматыкі і радыёэлектронікі, сумяшчаю вучобу з працай над сваімі праектамі. Я спецыялізуюся на распрацоўцы на Python і цікаўлюся нейрасеткамі. У блогу пішу пра іх і не толькі.',
             'detailed-description': 'Больш падрабязнае апісанне можна знайсці тут. Гэта можа быць гісторыя вашай жыцця, кар\'ерны шлях, асноўныя дасягненні і імкнення на будучыню.',
             'current-project': 'Бягучы Праект',
             'recent-projects': 'Нядаўнія Праекты',
@@ -150,21 +152,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    setLanguageBasedOnLocation();
-
     function updateLanguage() {
         document.querySelectorAll('[class*="lang-"]').forEach(elem => {
             const key = elem.className.split('lang-')[1];
             if (languages[currentLang][key]) {
-                elem.style.opacity = '0';
-                setTimeout(() => {
-                    elem.textContent = languages[currentLang][key];
-                    elem.classList.add('lang-animating');
-                    elem.style.opacity = '1';
-                }, 200);
-                elem.addEventListener('animationend', () => {
-                    elem.classList.remove('lang-animating');
-                }, {once: true});
+                // Update the content regardless of visibility
+                elem.textContent = languages[currentLang][key];
+                
+                // Only animate if the element is visible
+                if (elem.offsetParent !== null) {
+                    elem.style.opacity = '0';
+                    setTimeout(() => {
+                        elem.classList.add('lang-animating');
+                        elem.style.opacity = '1';
+                    }, 50);
+                    elem.addEventListener('animationend', () => {
+                        elem.classList.remove('lang-animating');
+                    }, {once: true});
+                }
             }
         });
     }
@@ -176,6 +181,4 @@ document.addEventListener('DOMContentLoaded', () => {
         langToggle.textContent = languages[currentLang].switch;
         updateLanguage();
     });
-
-    updateLanguage();
 });
