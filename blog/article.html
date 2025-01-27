@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Статья</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/13.0.1/markdown-it.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markdown-it-emoji@2.0.0/dist/markdown-it-emoji.min.js"></script>
+</head>
+<body>
+    <a href="index.html" class="back-button">← Назад к статьям</a>
+    <div class="article-container" id="article-content"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const params = new URLSearchParams(location.search);
+                const mdPath = params.get('path');
+                if(!mdPath) throw new Error('Статья не указана');
+
+                // Получаем базовый путь к папке статьи
+                const articleFolder = mdPath.split('/').slice(0, -1).join('/');
+                const baseImagePath = `${articleFolder}/images/`;
+
+                // Инициализация парсера
+                const md = window.markdownit({
+                    html: true,
+                    linkify: true,
+                    typographer: true
+                }).use(window.markdownitEmoji);
+
+                // Загрузка содержимого
+                const response = await fetch(mdPath);
+                let content = await response.text();
+
+                // Обработка изображений
+                content = content
+                    // Для синтаксиса ![[image.png]]
+                    .replace(/!\[\[([^\|\]]+\.(?:png|jpg|jpeg|gif|svg))(?:\|.*?)?\]\]/gi, (_, img) => {
+                        const cleanPath = img.replace(/^.*[\\\/]/, '');
+                        return `![${cleanPath}](${baseImagePath}${encodeURIComponent(cleanPath)})`;
+                    })
+                    // Для стандартного синтаксиса ![](image.png)
+                    .replace(/!\[([^\]]*)\]\(([^\)]+)\)/g, (match, alt, imgPath) => {
+                        if(/^(http|\/)/.test(imgPath)) return match;
+                        const cleanPath = imgPath.replace(/^.*[\\\/]/, '');
+                        return `![${alt}](${baseImagePath}${encodeURIComponent(cleanPath)})`;
+                    });
+
+                // Обработка вики-ссылок
+                content = content.replace(
+                    /\[\[([^\]]+)\]\]/g, 
+                    (_, title) => `[${title}](${slugify(title)}.html)`
+                );
+
+                // Рендеринг
+                document.getElementById('article-content').innerHTML = md.render(content);
+                document.title = extractTitle(content) + ' | Блог';
+
+                // Обработка ошибок изображений
+                document.querySelectorAll('img').forEach(img => {
+                    img.onerror = () => {
+                        img.style.border = '2px solid red';
+                        img.alt = `Ошибка загрузки: ${img.alt}`;
+                    };
+                });
+
+            } catch (error) {
+                document.getElementById('article-content').innerHTML = `
+                    <div class="error">
+                        ${error.message}<br>
+                        <a href="index.html">На главную</a>
+                    </div>
+                `;
+            }
+        });
+
+        // Генерация ЧПУ
+        function slugify(text) {
+            return text.toLowerCase()
+                .replace(/[\s_]+/g, '-')
+                .replace(/[^a-zа-яё0-9-]/gi, '')
+                .replace(/-+/g, '-')
+                .replace(/^-|-$/g, '');
+        }
+
+        // Извлечение заголовка
+        function extractTitle(content) {
+            const match = content.match(/^#\s+(.+)/m);
+            return match ? match[1].trim() : 'Без названия';
+        }
+    </script>
+</body>
+</html>

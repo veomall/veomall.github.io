@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мой блог</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Мои статьи</h1>
+    </header>
+    
+    <div class="articles-grid" id="articles-container">
+        <div class="loader">Загрузка статей...</div>
+    </div>
+
+    <script>
+        async function loadArticles() {
+            try {
+                const container = document.getElementById('articles-container');
+                container.innerHTML = '<div class="loader">Загрузка статей...</div>';
+
+                const response = await fetch('articles.json');
+                if (!response.ok) throw new Error('Ошибка загрузки');
+                
+                const data = await response.json();
+                
+                // Добавляем проверку типа данных
+                if (!Array.isArray(data)) {
+                    throw new Error('Некорректный формат данных в articles.json');
+                }
+                
+                renderArticles(data);
+                
+            } catch (error) {
+                showError(error);
+            }
+        }
+
+        function renderArticles(articles) {
+            const container = document.getElementById('articles-container');
+            container.innerHTML = '';
+
+            if (articles.length === 0) {
+                container.innerHTML = '<div class="error">Статьи не найдены</div>';
+                return;
+            }
+
+            articles.forEach(article => {
+                const card = document.createElement('a');
+                card.className = 'article-card';
+                card.href = `article.html?path=${encodeURIComponent(article.path)}`;
+                
+                card.innerHTML = `
+                    <div class="card-image" style="background-image: url('${article.image}')"></div>
+                    <div class="card-content">
+                        <h2>${article.title}</h2>
+                        <p>${article.excerpt}</p>
+                    </div>
+                `;
+                
+                container.appendChild(card);
+            });
+        }
+
+        function showError(error) {
+            const container = document.getElementById('articles-container');
+            container.innerHTML = `
+                <div class="error">
+                    Ошибка загрузки: ${error.message}<br>
+                    Попробуйте обновить страницу
+                </div>
+            `;
+        }
+        
+        loadArticles();
+    </script>
+</body>
+</html>
