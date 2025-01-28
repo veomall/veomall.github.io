@@ -1,38 +1,37 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-theme="dracula">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Мой блог</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
+    <header class="main-header">
         <h1>Мои статьи</h1>
+        <div class="header-controls">
+            <a href="https://ваш-сайт.com" class="site-link" target="_blank">Мой сайт</a>
+            <button class="theme-toggle" id="themeToggle">
+                <svg class="theme-icon" width="20" height="20" viewBox="0 0 24 24">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+                Тема
+            </button>
+        </div>
     </header>
-    
+
     <div class="articles-grid" id="articles-container">
         <div class="loader">Загрузка статей...</div>
     </div>
 
     <script>
+        // Загрузка статей
         async function loadArticles() {
             try {
-                const container = document.getElementById('articles-container');
-                container.innerHTML = '<div class="loader">Загрузка статей...</div>';
-
                 const response = await fetch('articles.json');
-                if (!response.ok) throw new Error('Ошибка загрузки');
-                
-                const data = await response.json();
-                
-                // Добавляем проверку типа данных
-                if (!Array.isArray(data)) {
-                    throw new Error('Некорректный формат данных в articles.json');
-                }
-                
-                renderArticles(data);
-                
+                const articles = await response.json();
+                renderArticles(articles);
             } catch (error) {
                 showError(error);
             }
@@ -40,41 +39,50 @@
 
         function renderArticles(articles) {
             const container = document.getElementById('articles-container');
-            container.innerHTML = '';
-
-            if (articles.length === 0) {
-                container.innerHTML = '<div class="error">Статьи не найдены</div>';
-                return;
-            }
-
-            articles.forEach(article => {
-                const card = document.createElement('a');
-                card.className = 'article-card';
-                card.href = `article.html?path=${encodeURIComponent(article.path)}`;
-                
-                card.innerHTML = `
+            container.innerHTML = articles.map(article => `
+                <a href="article.html?path=${encodeURIComponent(article.path)}" class="article-card">
                     <div class="card-image" style="background-image: url('${article.image}')"></div>
                     <div class="card-content">
                         <h2>${article.title}</h2>
                         <p>${article.excerpt}</p>
                     </div>
-                `;
-                
-                container.appendChild(card);
-            });
+                </a>
+            `).join('');
         }
 
-        function showError(error) {
-            const container = document.getElementById('articles-container');
-            container.innerHTML = `
-                <div class="error">
-                    Ошибка загрузки: ${error.message}<br>
-                    Попробуйте обновить страницу
-                </div>
+        // Переключение темы
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'dracula';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeButton(savedTheme);
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dracula' ? 'light' : 'dracula';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeButton(newTheme);
+        }
+
+        function updateThemeButton(theme) {
+            const btn = document.getElementById('themeToggle');
+            btn.innerHTML = `
+                <svg class="theme-icon" width="20" height="20" viewBox="0 0 24 24">
+                    ${theme === 'dracula' ? 
+                        '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>' :
+                        '<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>'}
+                </svg>
+                ${theme === 'dracula' ? 'Тёмная' : 'Светлая'}
             `;
         }
-        
-        loadArticles();
+
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', () => {
+            loadArticles();
+            initTheme();
+            document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+        });
     </script>
 </body>
 </html>
