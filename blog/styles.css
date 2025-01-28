@@ -8,26 +8,45 @@
     --dracula-green: #50fa7b;
     --dracula-orange: #ffb86c;
     --dracula-purple: #6272a4;
+    --dracula-red: #ff5555;
+    --dracula-yellow: #f1fa8c;
 
     /* Light Theme */
-    --light-bg: #f8f9fa;
-    --light-text: #212529;
-    --light-accent: #6c5ce7;
-    --light-cyan: #00b4d8;
-    --light-border: #dee2e6;
+    --light-bg: #f8f8f2;
+    --light-text: #282a36;
+    --light-accent: #7d58b3;
+    --light-cyan: #1b6f7a;
+    --light-pink: #c43d82;
+    --light-green: #2d9a3e;
+    --light-orange: #c47607;
+    --light-purple: #5b6399;
+    --light-red: #cc3333;
+    --light-yellow: #b58900;
 }
 
 [data-theme="light"] {
     --bg-color: var(--light-bg);
     --text-color: var(--light-text);
+    --h1-color: var(--light-accent);
+    --h2-color: var(--light-orange);
+    --h3-color: var(--light-green);
+    --h4-color: var(--light-red);
+    --h5-color: var(--light-yellow);
+    --h6-color: var(--light-accent);
     --accent-color: var(--light-accent);
     --secondary-color: var(--light-cyan);
-    --border-color: var(--light-border);
+    --border-color: var(--light-purple);
 }
 
 [data-theme="dracula"] {
     --bg-color: var(--dracula-bg);
     --text-color: var(--dracula-text);
+    --h1-color: var(--dracula-accent);
+    --h2-color: var(--dracula-orange);
+    --h3-color: var(--dracula-green);
+    --h4-color: var(--dracula-red);
+    --h5-color: var(--dracula-yellow);
+    --h6-color: var(--dracula-accent);
     --accent-color: var(--dracula-cyan);
     --secondary-color: var(--dracula-pink);
     --border-color: var(--dracula-purple);
@@ -83,6 +102,7 @@ header {
     text-decoration: none;
     color: inherit;
     border: 1px solid var(--border-color);
+    max-height: 400px;
 }
 
 .article-card:hover {
@@ -125,6 +145,18 @@ header {
     margin: 1.5rem auto;
     display: block;
     background: #000;
+}
+
+.article-container h1 {
+    color: var(--h1-color);
+}
+
+.article-container h2 {
+    color: var(--h2-color);
+}
+
+.article-container h3 {
+    color: var(--h3-color);
 }
 
 /* Элементы управления */

@@ -1,8 +1,8 @@
 [
     {
-        "title": "Название 1",
-        "excerpt": "Краткое описание...",
-        "image": "articles/first/images/308dee6db6743c8784e6577ad59f2e80--the-block-creepy-stuff.jpg",
-        "path": "articles/first/article.md"
+        "title": "Почему людям интересны пытки",
+        "excerpt": "Произошло событие, которое заставило меня целый день думать о всех людях, как о последних садистах, жаждущих и наслаждающихся пытками. Но судя по всему я оказался неправ, что меня невероятно радует.",
+        "image": "articles/pochemu-lyudyam-interesny-pytki/images/308dee6db6743c8784e6577ad59f2e80--the-block-creepy-stuff.jpg",
+        "path": "articles/pochemu-lyudyam-interesny-pytki/pochemu-lyudyam-interesny-pytki.md"
     }
 ]
