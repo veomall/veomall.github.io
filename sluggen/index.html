@@ -2,168 +2,43 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Слагenerator</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .container {
-            background-color: #f5f5f5;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        textarea {
-            width: 100%;
-            height: 150px;
-            margin-bottom: 10px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            resize: vertical;
-        }
-        select {
-            margin-bottom: 10px;
-            padding: 5px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        input[type="text"] {
-            width: 200px;
-            margin-right: 10px;
-            padding: 5px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 8px 16px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        #slugOutput {
-            width: 100%;
-            margin-top: 10px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Генератор слагов</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>Слагenerator</h1>
-        <textarea id="content" placeholder="Введите ваш текст...""></textarea>
-        <select id="separator">
-            <option value="-">-</option>
-            <option value="_">_</option>
-        </select>
-        <input type="text" id="maxLength" placeholder="Максимальная длина слага (по умолчанию 0)">
-        <div>
-            <button onclick="clearContent()">Очистить</button>
-            <button onclick="copySlug()">Копировать</button>
+        <h1>Генератор слагов</h1>
+
+        <div class="input-group">
+            <label for="input-text">Введите текст:</label>
+            <input type="text" id="input-text" placeholder="Введите текст">
+            <button class="clear-button" id="clear-button">×</button>
         </div>
-        <input type="text" id="slugOutput" readonly>
+
+        <div class="input-group">
+            <label for="separator">Разделитель слов:</label>
+            <select id="separator">
+                <option value="-">Тире (-)</option>
+                <option value="_">Подчеркивание (_)</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label for="max-length">Максимальная длина слага:</label>
+            <input type="number" id="max-length" value="50" min="1">
+        </div>
+
+        <div class="input-group">
+            <label for="slug-output">Сгенерированный слаг:</label>
+            <div class="slug-output" id="slug-output">Сгенерированный слаг</div>
+            <button class="copy-button" id="copy-button">⧉</button>
+        </div>
     </div>
 
-    <script>
-        const cyrillicToLatinMap = {
-            'А': 'A', 'а': 'a',
-            'Б': 'B', 'б': 'b',
-            'В': 'V', 'в': 'v',
-            'Г': 'G', 'г': 'g',
-            'Д': 'D', 'д': 'd',
-            'Е': 'E', 'е': 'e',
-            'Ж': 'Zh', 'ж': 'zh',
-            'З': 'Z', 'з': 'z',
-            'И': 'I', 'и': 'i',
-            'Й': 'J', 'й': 'j',
-            'К': 'K', 'к': 'k',
-            'Л': 'L', 'л': 'l',
-            'М': 'M', 'м': 'm',
-            'Н': 'N', 'н': 'n',
-            'О': 'O', 'о': 'o',
-            'П': 'P', 'п': 'p',
-            'Р': 'R', 'р': 'r',
-            'С': 'S', 'с': 's',
-            'Т': 'T', 'т': 't',
-            'У': 'U', 'у': 'u',
-            'Ф': 'F', 'ф': 'f',
-            'Х': 'Kh', 'х': 'kh',
-            'Ц': 'Ts', 'ц': 'ts',
-            'Ч': 'Ch', 'ч': 'ch',
-            'Ш': 'Sh', 'ш': 'sh',
-            'Щ': 'Sch', 'щ': 'sch',
-            'Ъ': 'Yu', 'ъ': 'yu',
-            'Ь': 'Yun', 'ь': 'yun',
-            'Ю': 'Yu', 'ю': 'yu',
-            'Я': 'Ya', 'я': 'ya'
-        };
+    <!-- Уведомление -->
+    <div class="notification" id="notification">Слаг скопирован в буфер обмена!</div>
 
-        function replaceCyrillic(text) {
-            return text.replace(/[\u0400-\u04FF]/g, (char) => {
-                return cyrillicToLatinMap[char] || '';
-            });
-        }
-
-        const content = document.getElementById('content');
-        const maxLengthInput = document.getElementById('maxLength');
-        const slugOutput = document.getElementById('slugOutput');
-
-        function generateSlug() {
-            // Получаем текст
-            let text = content.value;
-
-            // Преобразовываем кириллические символы в латинские
-            text = replaceCyrillic(text);
-
-            // Очищаем текст от лишних символов
-            text = text.replace(/[^a-z0-9\-_]/gi, '-');
-
-            // Приводим текст к нижнему регистру
-            text = text.toLowerCase();
-
-            // Удаляем多余的 дефисы
-            text = text.replace(/--+/g, '-');
-            text = text.replace(/^\-/g, '');
-            text = text.replace(/\-$/g, '');
-
-            // Если указан.maxLength,截取指定长度的前缀
-            const maxLength = parseInt(maxLengthInput.value) || 0;
-            if (maxLength > 0 && text.length > maxLength) {
-                text = text.substring(0, maxLength);
-            }
-
-            slugOutput.value = text;
-        }
-
-        function clearContent() {
-            content.value = '';
-            slugOutput.value = '';
-        }
-
-        function copySlug() {
-            slugOutput.select();
-            document.execCommand('copy');
-            alert('Слаг скопирован в буфер!');
-        }
-
-        // Обновляем slag при изменении текста
-        content.addEventListener('input', generateSlug);
-
-        // Обновляем slag при изменении maxLength
-        maxLengthInput.addEventListener('input', generateSlug);
-
-        // Инициализируем
-        generateSlug();
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
