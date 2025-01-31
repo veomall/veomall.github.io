@@ -1,125 +1,76 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Veomall - Personal Site</title>
+    <title>Мой сайт</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="dark-theme">
-    <header>
-        <nav>
-            <div class="logo"><a href="#info">Veomall</a></div>
-            <div class="nav-links">
-                <a href="#projects" class="lang-project">Projects</a>
-                <a href="#blog" class="lang-blog">Blog</a>
-                <button id="themeToggle" class="lang-theme"><i class="fas fa-moon"></i></button>
-                <button id="langToggle" class="lang-switch">EN</button>
-            </div>
-        </nav>
+<body>
+    <!-- Заголовок -->
+    <header class="fixed-header">
+        <h1>Мой сайт</h1>
     </header>
 
+    <!-- Основной контент -->
     <main>
-        <section class="info" id="info">
-            <div class="main-content">
-                <div class="card">
-                    <img src="media/photo.png" alt="Your Name" class="card-image">
-                    <div class="card-content">
-                        <h1 id="name" class="lang-name">Your Name</h1>
-                        <p id="brief-description" class="lang-brief-description">A brief description about you goes here.</p>
-                        <p id="full-description" class="lang-full-description">A full, detailed description about you goes here. This can include your background, skills, interests, and any other relevant information you'd like to share.</p>
-                        <p id="detailed-description" class="lang-detailed-description">An even more detailed description goes here. This can include your life story, career journey, major achievements, and future aspirations.</p>
-                    </div>
-                    <button class="expand-btn"><i class="fas fa-chevron-right"></i></button>
+        <!-- Раздел 1: Описание человека -->
+        <section id="about" class="section">
+            <div class="card">
+                <div class="card-image">
+                    <img src="person.jpg" alt="Фото человека">
+                </div>
+                <div class="card-content">
+                    <h2>Имя Фамилия</h2>
+                    <p>Описание человека. Здесь можно написать краткую информацию о себе или своем опыте.</p>
                 </div>
             </div>
         </section>
 
-        <section class="projects" id="projects">
-            <div class="project-container">
-                <h2 class="section-heading lang-current-project">Current Project</h2>
-                <a href="https://github.com/yourusername/project" class="project-card current-project">
-                    <img src="media\photo.png" alt="Current Project">
-                    <div class="project-info">
-                        <h3>Current Project Name</h3>
-                        <p>Brief description of the current project.</p>
-                    </div>
-                </a>
-                
-                <h2 class="section-heading lang-recent-projects">Recent Projects</h2>
-                <div class="recent-projects">
-                    <a href="https://github.com/yourusername/project" class="project-card">
-                        <img src="media\photo.png" alt="Project 1">
-                        <div class="project-info">
-                            <h3>Project 1 Name</h3>
-                            <p>Brief description of project 1.</p>
-                        </div>
-                    </a>
-                    <a href="https://github.com/yourusername/project" class="project-card">
-                        <img src="media\photo.png" alt="Project 2">
-                        <div class="project-info">
-                            <h3>Project 2 Name</h3>
-                            <p>Brief description of project 2.</p>
-                        </div>
-                    </a>
+        <!-- Раздел 2: Проекты -->
+        <section id="projects" class="section">
+            <div class="project-card main-project">
+                <h3>Текущий проект</h3>
+                <p>Описание текущего проекта. Это может быть что-то важное и актуальное.</p>
+            </div>
+            <div class="project-grid">
+                <div class="project-card">
+                    <h3>Проект 1</h3>
+                    <p>Краткое описание первого проекта.</p>
                 </div>
-                <div class="view-all-container">
-                    <a href="https://github.com/veomall?tab=repositories" class="view-all-projects lang-view-all">View All Projects</a>
+                <div class="project-card">
+                    <h3>Проект 2</h3>
+                    <p>Краткое описание второго проекта.</p>
                 </div>
             </div>
+            <a href="#" class="button">Все проекты</a>
         </section>
 
-        <section class="blog" id="blog">
-            <div class="blog-container">
-                <h2 class="section-heading lang-blog-title">Latest Blog Posts</h2>
-                <div class="blog-cards">
-                    <div class="blog-card">
-                        <img src="media\photo.png" alt="Blog post">
-                        <div class="blog-content">
-                            <span class="blog-date">May 1, 2023</span>
-                            <h3>Blog Post Title</h3>
-                            <p>Stood his we me fowl his be above from human nevermore and the if still his of echo now. Ominous on i. Bust the the and wondering and raven if its spoken. Stood what bends you. Eyes sent from so whispered one ember lamplight stately sat door the that just.</p>
-                            <a href="#" class="read-more lang-read-more">Read More</a>
-                        </div>
-                    </div>
-                    <div class="blog-card">
-                        <img src="media\photo.png" alt="Blog post">
-                        <div class="blog-content">
-                            <span class="blog-date">May 1, 2023</span>
-                            <h3>Blog Post Title</h3>
-                            <p>Fancy thee ah he at let heard or the. What what it sent gently with yore a i nodded broken wind. Bird lining tapping a lost yet merely i fiend this wind the there whom plainly more quaff if me. Sitting raven prophet lore footfalls.</p>
-                            <a href="#" class="read-more lang-read-more">Read More</a>
-                        </div>
-                    </div>
-                    <div class="blog-card">
-                        <img src="media\photo.png" alt="Blog post">
-                        <div class="blog-content">
-                            <span class="blog-date">May 1, 2023</span>
-                            <h3>Blog Post Title</h3>
-                            <p>Whether no word nevermore nepenthe croaking quoth eyes and nevernevermore or shall i lent chamber. Me and morrow what door chamber lenore there soul. That and the implore lenore. Floor the that this bird more as into stillness lenore i. Outpour rapping with curious then kind usby days chamber explore. Lenore there tapping burden spoke thy flirt it stayed ghastly little chamber the rapping lore you i that he. Thy i door devil bird that perched sad and back felt of to wore and name quaff.</p>
-                            <a href="#" class="read-more lang-read-more">Read More</a>
-                        </div>
-                    </div>
+        <!-- Раздел 3: Статьи -->
+        <section id="articles" class="section">
+            <div class="article-grid">
+                <div class="article-card">
+                    <img src="article1.jpg" alt="Статья 1">
+                    <h3>Заголовок статьи 1</h3>
+                    <p>Краткое описание статьи. Здесь можно добавить немного текста.</p>
                 </div>
-                <div class="view-all-container">
-                    <a href="/reader/" class="view-all-posts lang-view-all-posts">View All Blog Posts</a>
+                <div class="article-card">
+                    <img src="article2.jpg" alt="Статья 2">
+                    <h3>Заголовок статьи 2</h3>
+                    <p>Краткое описание статьи. Здесь можно добавить немного текста.</p>
+                </div>
+                <div class="article-card">
+                    <img src="article3.jpg" alt="Статья 3">
+                    <h3>Заголовок статьи 3</h3>
+                    <p>Краткое описание статьи. Здесь можно добавить немного текста.</p>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer>
-        <div class="footer-content">
-        <div class="social-links">
-            <a href="https://x.com/veomall" class="social-icon"><i class="fab fa-twitter"></i></a>
-            <a href="https://github.com/veomall" class="social-icon"><i class="fab fa-github"></i></a>
-            <a href="https://www.linkedin.com/in/veomall/" class="social-icon"><i class="fab fa-linkedin"></i></a>
-        </div>
-        <div class="contact-info">
-            <p class="lang-email">heorhiprystrom@gmail.com</p>
-        </div>
-        </div>
+    <!-- Подвал -->
+    <footer class="fixed-footer">
+        <p>&copy; 2023 Мой сайт. Все права защищены.</p>
     </footer>
 
     <script src="script.js"></script>
