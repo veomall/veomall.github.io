@@ -1,8 +1,14 @@
 [
     {
         "title": "Почему людям интересны пытки",
-        "excerpt": "Произошло событие, которое заставило меня целый день думать о всех людях, как о последних садистах, жаждущих и наслаждающихся пытками. Но судя по всему я оказался неправ, что меня невероятно радует.",
+        "excerpt": "Произошло событие, которое заставило меня целый день думать о всех людях, как о последних садистах, жаждущих и наслаждающихся пытками.",
         "image": "articles/pochemu-lyudyam-interesny-pytki/images/308dee6db6743c8784e6577ad59f2e80--the-block-creepy-stuff.jpg",
         "path": "articles/pochemu-lyudyam-interesny-pytki/pochemu-lyudyam-interesny-pytki.md"
+    },
+    {
+        "title": "Плащ-невидимка сядет как влитой",
+        "excerpt": "Основная идея — это создать самый защищенный и анонимный мессенджер. Предстоит решить чрезвычайно важную проблему нахождения компромисса между приватностью и удобством. ",
+        "image": "articles/plasch-nevidimka-syadet-kak-vlitoy/images/maxresdefault.jpg",
+        "path": "articles/plasch-nevidimka-syadet-kak-vlitoy/plasch-nevidimka-syadet-kak-vlitoy.md"
     }
 ]
