@@ -21,33 +21,279 @@
         </div>
     </header>
 
+    <div class="search-container">
+        <div class="search-box">
+            <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <input type="text" id="searchInput" placeholder="Поиск статей...">
+            <button id="clearSearch" class="clear-search-btn">×</button>
+        </div>
+    </div>
+
+    <div class="tags-container" id="tagsContainer">
+        <div class="tags-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 14L4 9L9 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M20 20V13C20 11.9391 19.5786 10.9217 18.8284 10.1716C18.0783 9.42143 17.0609 9 16 9H4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Теги:</span>
+        </div>
+        <div class="tags-list" id="tagsList">
+            <div class="loader small-loader">Загрузка тегов...</div>
+        </div>
+    </div>
+    
+    <div class="active-filters" id="activeFilters"></div>
+
     <div class="articles-grid" id="articles-container">
         <div class="loader">Загрузка статей...</div>
     </div>
 
+    <div class="no-results-message" id="noResults" style="display: none;">
+        <h2>Статьи не найдены</h2>
+        <p>Попробуйте изменить параметры поиска или сбросить фильтры</p>
+        <button id="resetFilters" class="reset-filters-btn">Сбросить все фильтры</button>
+    </div>
+
     <script>
-        // Загрузка статей
+        // Глобальные переменные
+        let allArticles = [];
+        let activeTags = [];
+        let searchQuery = '';
+
+        // Загрузка и отображение статей
         async function loadArticles() {
             try {
                 const response = await fetch('articles.json');
-                const articles = await response.json();
-                renderArticles(articles);
+                allArticles = await response.json();
+                
+                // Сортировка по дате (сначала новые)
+                allArticles.sort((a, b) => new Date(b.date) - new Date(a.date));
+                
+                // Отображение статей и формирование списка тегов
+                filterAndRenderArticles();
+                renderTags();
             } catch (error) {
                 showError(error);
             }
         }
 
+        // Форматирование даты
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const options = { day: 'numeric', month: 'short', year: 'numeric' };
+            return date.toLocaleDateString('ru-RU', options);
+        }
+
+        // Отображение статей с учетом фильтров
+        function filterAndRenderArticles() {
+            let filteredArticles = allArticles;
+            
+            // Применение фильтра по тегам
+            if (activeTags.length > 0) {
+                filteredArticles = filteredArticles.filter(article => 
+                    activeTags.every(tag => article.tags && article.tags.includes(tag))
+                );
+            }
+            
+            // Применение поискового запроса
+            if (searchQuery) {
+                const query = searchQuery.toLowerCase();
+                filteredArticles = filteredArticles.filter(article => 
+                    article.title.toLowerCase().includes(query) || 
+                    article.excerpt.toLowerCase().includes(query) ||
+                    (article.tags && article.tags.some(tag => tag.toLowerCase().includes(query)))
+                );
+            }
+            
+            // Отображение найденных статей или сообщения об отсутствии результатов
+            if (filteredArticles.length === 0) {
+                document.getElementById('articles-container').innerHTML = '';
+                document.getElementById('noResults').style.display = 'block';
+            } else {
+                renderArticles(filteredArticles);
+                document.getElementById('noResults').style.display = 'none';
+            }
+            
+            // Обновление панели активных фильтров
+            updateActiveFilters();
+        }
+
+        // Отображение списка активных фильтров
+        function updateActiveFilters() {
+            const filterContainer = document.getElementById('activeFilters');
+            
+            if (activeTags.length > 0 || searchQuery) {
+                let filterHTML = '<div class="active-filters-label">Активные фильтры:</div>';
+                
+                // Добавление тегов
+                activeTags.forEach(tag => {
+                    filterHTML += `
+                        <div class="filter-tag">
+                            <span>${tag}</span>
+                            <button class="remove-filter" data-tag="${tag}">×</button>
+                        </div>
+                    `;
+                });
+                
+                // Добавление поискового запроса
+                if (searchQuery) {
+                    filterHTML += `
+                        <div class="filter-tag search-filter">
+                            <span>Поиск: ${searchQuery}</span>
+                            <button class="remove-filter" data-search="true">×</button>
+                        </div>
+                    `;
+                }
+                
+                filterContainer.innerHTML = filterHTML;
+                filterContainer.style.display = 'flex';
+                
+                // Добавление обработчиков для кнопок удаления фильтров
+                document.querySelectorAll('.remove-filter').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        if (this.dataset.tag) {
+                            // Удаление тега из фильтров
+                            const tagIndex = activeTags.indexOf(this.dataset.tag);
+                            if (tagIndex > -1) activeTags.splice(tagIndex, 1);
+                            
+                            // Обновление стилей тегов в списке
+                            const tagElement = document.querySelector(`.tag[data-tag="${this.dataset.tag}"]`);
+                            if (tagElement) tagElement.classList.remove('active');
+                        } else if (this.dataset.search) {
+                            // Сброс поискового запроса
+                            searchQuery = '';
+                            document.getElementById('searchInput').value = '';
+                        }
+                        
+                        filterAndRenderArticles();
+                    });
+                });
+            } else {
+                filterContainer.innerHTML = '';
+                filterContainer.style.display = 'none';
+            }
+        }
+
+        // Отрисовка статей
         function renderArticles(articles) {
             const container = document.getElementById('articles-container');
-            container.innerHTML = articles.map(article => `
-                <a href="article.html?path=${encodeURIComponent(article.path)}" class="article-card">
-                    <div class="card-image" style="background-image: url('${article.image}')"></div>
-                    <div class="card-content">
-                        <h2>${article.title}</h2>
-                        <p>${article.excerpt}</p>
-                    </div>
-                </a>
-            `).join('');
+            
+            // Создаем HTML-карточки для статей
+            container.innerHTML = articles.map(article => {
+                const imagePath = article.image || 'placeholder.jpg';
+                const formattedDate = formatDate(article.date);
+                const tagsList = article.tags ? article.tags.map(tag => 
+                    `<span class="article-tag" data-tag="${tag}">${tag}</span>`
+                ).join('') : '';
+                
+                return `
+                    <a href="article.html?path=${encodeURIComponent(article.path)}" class="article-card">
+                        <div class="card-image" style="background-color: var(--bg-color);">
+                            <div class="card-image-inner" style="background-image: url('${imagePath}')"></div>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-date">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M16 2V6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M8 2V6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M3 10H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                ${formattedDate}
+                            </div>
+                            <h2>${article.title}</h2>
+                            <p>${article.excerpt}</p>
+                            <div class="card-tags">${tagsList}</div>
+                        </div>
+                    </a>
+                `;
+            }).join('');
+            
+            // Добавляем размытую копию изображения в псевдоэлемент
+            document.querySelectorAll('.card-image').forEach(card => {
+                const imgPath = card.querySelector('.card-image-inner').style.backgroundImage;
+                card.style.setProperty('--bg-image', imgPath);
+                card.style.backgroundImage = imgPath;
+            });
+            
+            // Добавляем обработчики для тегов в карточках
+            document.querySelectorAll('.article-tag').forEach(tag => {
+                tag.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const tagName = this.getAttribute('data-tag');
+                    if (!activeTags.includes(tagName)) {
+                        activeTags.push(tagName);
+                        
+                        // Подсветка соответствующего тега в общем списке
+                        const tagInList = document.querySelector(`.tag[data-tag="${tagName}"]`);
+                        if (tagInList) tagInList.classList.add('active');
+                        
+                        filterAndRenderArticles();
+                    }
+                });
+            });
+        }
+
+        // Сбор и отображение всех уникальных тегов
+        function renderTags() {
+            const tagsList = document.getElementById('tagsList');
+            
+            // Получение всех уникальных тегов
+            const uniqueTags = new Set();
+            allArticles.forEach(article => {
+                if (article.tags && Array.isArray(article.tags)) {
+                    article.tags.forEach(tag => uniqueTags.add(tag));
+                }
+            });
+            
+            // Отсортированный массив тегов
+            const sortedTags = Array.from(uniqueTags).sort();
+            
+            if (sortedTags.length === 0) {
+                tagsList.innerHTML = '<div class="no-tags">Нет доступных тегов</div>';
+                return;
+            }
+            
+            // Формирование HTML для тегов
+            tagsList.innerHTML = sortedTags.map(tag => 
+                `<div class="tag ${activeTags.includes(tag) ? 'active' : ''}" data-tag="${tag}">${tag}</div>`
+            ).join('');
+            
+            // Добавление обработчиков для тегов
+            document.querySelectorAll('.tag').forEach(tagElement => {
+                tagElement.addEventListener('click', function() {
+                    const tag = this.getAttribute('data-tag');
+                    
+                    if (activeTags.includes(tag)) {
+                        // Удаление тега из фильтров
+                        const index = activeTags.indexOf(tag);
+                        activeTags.splice(index, 1);
+                        this.classList.remove('active');
+                    } else {
+                        // Добавление тега в фильтры
+                        activeTags.push(tag);
+                        this.classList.add('active');
+                    }
+                    
+                    filterAndRenderArticles();
+                });
+            });
+        }
+
+        // Отображение ошибки
+        function showError(error) {
+            const container = document.getElementById('articles-container');
+            container.innerHTML = `
+                <div class="error">
+                    <h2>Ошибка загрузки статей</h2>
+                    <p>${error.message}</p>
+                </div>
+            `;
         }
 
         // Переключение темы
@@ -81,7 +327,45 @@
         document.addEventListener('DOMContentLoaded', () => {
             loadArticles();
             initTheme();
+            
+            // Обработчик для кнопки переключения темы
             document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+            
+            // Обработчик для поиска
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('input', function() {
+                searchQuery = this.value.trim();
+                filterAndRenderArticles();
+                document.getElementById('clearSearch').style.display = searchQuery ? 'block' : 'none';
+            });
+            
+            // Обработчик для кнопки очистки поиска
+            document.getElementById('clearSearch').addEventListener('click', function() {
+                searchInput.value = '';
+                searchQuery = '';
+                this.style.display = 'none';
+                filterAndRenderArticles();
+            });
+            
+            // Обработчик для кнопки сброса всех фильтров
+            document.getElementById('resetFilters').addEventListener('click', function() {
+                activeTags = [];
+                searchQuery = '';
+                searchInput.value = '';
+                document.getElementById('clearSearch').style.display = 'none';
+                document.querySelectorAll('.tag').forEach(tag => tag.classList.remove('active'));
+                filterAndRenderArticles();
+            });
+            
+            // Обработка параметров URL (для открытия страницы с выбранным тегом)
+            const urlParams = new URLSearchParams(window.location.search);
+            const tagParam = urlParams.get('tag');
+            if (tagParam) {
+                activeTags.push(tagParam);
+                
+                // Подсветка тега произойдет при рендеринге списка тегов
+                // в функции renderTags()
+            }
         });
     </script>
 </body>

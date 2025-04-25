@@ -3,18 +3,32 @@
         "title": "Почему людям интересны пытки",
         "excerpt": "Произошло событие, которое заставило меня целый день думать о всех людях, как о последних садистах, жаждущих и наслаждающихся пытками.",
         "image": "articles/pochemu-lyudyam-interesny-pytki/images/308dee6db6743c8784e6577ad59f2e80--the-block-creepy-stuff.jpg",
-        "path": "articles/pochemu-lyudyam-interesny-pytki/article.md"
+        "path": "articles/pochemu-lyudyam-interesny-pytki/article.md",
+        "date": "2024-11-15T14:30:00",
+        "tags": ["приколы"]
     },
     {
         "title": "Плащ-невидимка сядет как влитой",
         "excerpt": "Основная идея — это создать самый защищенный и анонимный мессенджер. Предстоит решить чрезвычайно важную проблему нахождения компромисса между приватностью и удобством. ",
         "image": "articles/plasch-nevidimka-syadet-kak-vlitoy/images/maxresdefault.jpg",
-        "path": "articles/plasch-nevidimka-syadet-kak-vlitoy/article.md"
+        "path": "articles/plasch-nevidimka-syadet-kak-vlitoy/article.md",
+        "date": "2025-02-08T21:33:00",
+        "tags": ["noxtra"]
     },
     {
         "title": "Технический план мессенджера Noxtra",
         "excerpt": "Мессенджер Noxtra задуман как универсальное решение, объединяющее три уникальных режима работы: **Ghost**, **Masked** и **Comfort**. Каждый из этих режимов реализует свой уровень анонимности и защиты данных.",
         "image": "articles/tehnicheskiy-plan-messendzhera-noxtra/images/noxtra.png",
-        "path": "articles/tehnicheskiy-plan-messendzhera-noxtra/article.md"
+        "path": "articles/tehnicheskiy-plan-messendzhera-noxtra/article.md",
+        "date": "2025-04-03T16:45:00",
+        "tags": ["разработка", "noxtra"]
+    },
+    {
+        "title": "Власть на передержку",
+        "excerpt": "Как любого Дмитрия Анатольевича в душе могут звать Касым-Жомарт Кемелевич",
+        "image": "articles/vlast-na-perederzhku/images/1646642504708434_36fnLsg6.jpg",
+        "path": "articles/vlast-na-perederzhku/article.md",
+        "date": "2025-04-25T23:50:00",
+        "tags": ["политика", "приколы"]
     }
 ]

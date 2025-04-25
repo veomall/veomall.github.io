@@ -6,11 +6,18 @@
     <title>Статья</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/13.0.1/markdown-it.min.js"></script>
 </head>
 <body>
     <header class="article-header">
-        <a href="index.html" class="back-button">← Назад</a>
+        <a href="index.html" class="back-button">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19 12H5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 19L5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Назад
+        </a>
         <h1 class="article-title" id="article-title"></h1>
         <div class="header-controls">
             <a href="https://veomall.github.io" class="site-link">Veomall</a>
@@ -23,7 +30,15 @@
         </div>
     </header>
 
-    <div class="article-container" id="article-content"></div>
+    <div class="article-container">
+        <div class="article-meta" id="article-meta">
+            <div class="article-date" id="article-date"></div>
+            <div class="article-tags" id="article-tags"></div>
+        </div>
+        <div id="article-content">
+            <div class="loader">Загрузка статьи</div>
+        </div>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
@@ -54,6 +69,19 @@
                 `;
             }
 
+            // Форматирование даты
+            const formatDate = (dateString) => {
+                const date = new Date(dateString);
+                const options = { 
+                    day: 'numeric', 
+                    month: 'long', 
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                };
+                return date.toLocaleDateString('ru-RU', options);
+            }
+
             document.getElementById('themeToggle').addEventListener('click', toggleTheme);
             initTheme();
 
@@ -69,16 +97,62 @@
                 const currentArticle = articles.find(a => a.path === mdPath);
                 if(!currentArticle) throw new Error('Статья не найдена');
 
-                // Установка заголовка
+                // Установка заголовков и метаданных
                 document.title = `${currentArticle.title} | Блог`;
                 document.getElementById('article-title').textContent = currentArticle.title;
+                
+                // Отображение даты публикации
+                if (currentArticle.date) {
+                    document.getElementById('article-date').innerHTML = `
+                        <svg class="date-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M16 2V6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M8 2V6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M3 10H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>${formatDate(currentArticle.date)}</span>
+                    `;
+                }
+                
+                // Отображение тегов
+                if (currentArticle.tags && currentArticle.tags.length > 0) {
+                    document.getElementById('article-tags').innerHTML = `
+                        <svg class="tags-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 14L4 9L9 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M20 20V13C20 11.9391 19.5786 10.9217 18.8284 10.1716C18.0783 9.42143 17.0609 9 16 9H4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <div class="article-tags-list">
+                            ${currentArticle.tags.map(tag => 
+                                `<a href="index.html?tag=${encodeURIComponent(tag)}" class="article-tag">${tag}</a>`
+                            ).join('')}
+                        </div>
+                    `;
+                }
 
-                // Инициализация Markdown-парсера
+                // Инициализация Markdown-парсера с дополнительными возможностями
                 const md = window.markdownit({
                     html: true,
                     linkify: true,
-                    typographer: true
+                    typographer: true,
+                    breaks: true,
+                    highlight: function (str, lang) {
+                        return '<pre class="language-' + lang + '"><code>' + str + '</code></pre>';
+                    }
                 });
+
+                // Расширение синтаксиса для меток/выделений
+                const defaultRender = md.renderer.rules.text || function(tokens, idx) {
+                    return tokens[idx].content;
+                };
+
+                md.renderer.rules.text = function(tokens, idx) {
+                    let text = tokens[idx].content;
+                    
+                    // Обработка ==выделенного текста==
+                    text = text.replace(/==(.*?)==/g, '<mark>$1</mark>');
+                    
+                    return text;
+                };
 
                 // Загрузка содержимого
                 const response = await fetch(mdPath);
@@ -96,19 +170,60 @@
                 // Рендеринг
                 document.getElementById('article-content').innerHTML = md.render(content);
 
-                // Обработка ошибок изображений
-                document.querySelectorAll('img').forEach(img => {
+                // Улучшение просмотра изображений
+                document.querySelectorAll('.article-container img').forEach(img => {
+                    // Оборачиваем изображение в контейнер
+                    const imgContainer = document.createElement('div');
+                    imgContainer.className = 'article-image-container';
+                    img.parentNode.insertBefore(imgContainer, img);
+                    imgContainer.appendChild(img);
+                    
+                    // Обработка ошибок изображений
                     img.onerror = () => {
-                        img.style.border = '2px solid #ff5555';
+                        img.style.border = '2px solid var(--dracula-red)';
                         img.alt = `Ошибка загрузки: ${img.alt}`;
+                        imgContainer.classList.add('image-error');
                     };
+                    
+                    // Увеличение изображения по клику
+                    img.addEventListener('click', () => {
+                        const overlay = document.createElement('div');
+                        overlay.className = 'image-overlay';
+                        const imgClone = img.cloneNode();
+                        imgClone.style.maxHeight = '90vh';
+                        overlay.appendChild(imgClone);
+                        
+                        // Закрытие по клику или Esc
+                        const closeOverlay = () => {
+                            document.body.removeChild(overlay);
+                            document.removeEventListener('keydown', escHandler);
+                        };
+                        
+                        const escHandler = (e) => {
+                            if (e.key === 'Escape') closeOverlay();
+                        };
+                        
+                        overlay.addEventListener('click', closeOverlay);
+                        document.addEventListener('keydown', escHandler);
+                        
+                        document.body.appendChild(overlay);
+                    });
+                });
+                
+                // Обработка таблиц для лучшего отображения
+                document.querySelectorAll('table').forEach(table => {
+                    const wrapper = document.createElement('div');
+                    wrapper.style.overflowX = 'auto';
+                    table.parentNode.insertBefore(wrapper, table);
+                    wrapper.appendChild(table);
                 });
 
             } catch (error) {
                 document.getElementById('article-content').innerHTML = `
                     <div class="error">
-                        ${error.message}<br>
-                        <a href="index.html">На главную</a>
+                        <h2>Ошибка загрузки статьи</h2>
+                        <p>${error.message}</p>
+                        <a href="index.html" class="back-to-home">На главную</a>
                     </div>
                 `;
             }
