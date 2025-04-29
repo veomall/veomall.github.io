@@ -1,78 +1,139 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мой сайт</title>
+    <title>veomall - Terminal Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
-    <!-- Заголовок -->
-    <header class="fixed-header">
-        <h1>Мой сайт</h1>
-    </header>
-
-    <!-- Основной контент -->
-    <main>
-        <!-- Раздел 1: Описание человека -->
-        <section id="about" class="section">
-            <div class="card">
-                <div class="card-image">
-                    <img src="person.jpg" alt="Фото человека">
-                </div>
-                <div class="card-content">
-                    <h2>Имя Фамилия</h2>
-                    <p>Описание человека. Здесь можно написать краткую информацию о себе или своем опыте.</p>
+    <div class="retro-container">
+        <div class="monitor">
+            <div class="screen">
+                <div class="scan-lines"></div>
+                <div class="glare"></div>
+                <div class="terminal">
+                    <div class="terminal-output" id="terminal-output"></div>
+                    <div class="terminal-input-line">
+                        <span class="prompt">veomall@terminal:/$</span>
+                        <input type="text" id="terminal-input" autofocus>
+                    </div>
                 </div>
             </div>
-        </section>
-
-        <!-- Раздел 2: Проекты -->
-        <section id="projects" class="section">
-            <div class="project-card main-project">
-                <h3>Текущий проект</h3>
-                <p>Описание текущего проекта. Это может быть что-то важное и актуальное.</p>
+        </div>
+        
+        <!-- Wrap keyboard and mouse in a new div -->
+        <div class="input-devices">
+            <!-- Keyboard element -->
+            <div class="keyboard">
+                <div class="keyboard-row">
+                    <div class="key" data-key="Escape">Esc</div>
+                    <div class="key" data-key="F1">F1</div>
+                    <div class="key" data-key="F2">F2</div>
+                    <div class="key" data-key="F3">F3</div>
+                    <div class="key" data-key="F4">F4</div>
+                    <div class="key" data-key="F5">F5</div>
+                    <div class="key" data-key="F6">F6</div>
+                    <div class="key" data-key="F7">F7</div>
+                    <div class="key" data-key="F8">F8</div>
+                    <div class="key" data-key="F9">F9</div>
+                    <div class="key" data-key="F10">F10</div>
+                    <div class="key" data-key="F11">F11</div>
+                    <div class="key" data-key="F12">F12</div>
+                </div>
+                <div class="keyboard-row">
+                    <div class="key" data-key="`">~</div>
+                    <div class="key" data-key="1">1</div>
+                    <div class="key" data-key="2">2</div>
+                    <div class="key" data-key="3">3</div>
+                    <div class="key" data-key="4">4</div>
+                    <div class="key" data-key="5">5</div>
+                    <div class="key" data-key="6">6</div>
+                    <div class="key" data-key="7">7</div>
+                    <div class="key" data-key="8">8</div>
+                    <div class="key" data-key="9">9</div>
+                    <div class="key" data-key="0">0</div>
+                    <div class="key" data-key="-">-</div>
+                    <div class="key" data-key="=">=</div>
+                    <div class="key wide" data-key="Backspace">Backspace</div>
+                </div>
+                <div class="keyboard-row">
+                    <div class="key wide" data-key="Tab">Tab</div>
+                    <div class="key" data-key="q">Q</div>
+                    <div class="key" data-key="w">W</div>
+                    <div class="key" data-key="e">E</div>
+                    <div class="key" data-key="r">R</div>
+                    <div class="key" data-key="t">T</div>
+                    <div class="key" data-key="y">Y</div>
+                    <div class="key" data-key="u">U</div>
+                    <div class="key" data-key="i">I</div>
+                    <div class="key" data-key="o">O</div>
+                    <div class="key" data-key="p">P</div>
+                    <div class="key" data-key="[">[</div>
+                    <div class="key" data-key="]">]</div>
+                    <div class="key" data-key="\">\</div>
+                </div>
+                <div class="keyboard-row">
+                    <div class="key wide" data-key="CapsLock">Caps</div>
+                    <div class="key" data-key="a">A</div>
+                    <div class="key" data-key="s">S</div>
+                    <div class="key" data-key="d">D</div>
+                    <div class="key" data-key="f">F</div>
+                    <div class="key" data-key="g">G</div>
+                    <div class="key" data-key="h">H</div>
+                    <div class="key" data-key="j">J</div>
+                    <div class="key" data-key="k">K</div>
+                    <div class="key" data-key="l">L</div>
+                    <div class="key" data-key=";">;</div>
+                    <div class="key" data-key="'">'</div>
+                    <div class="key wider" data-key="Enter">Enter</div>
+                </div>
+                <div class="keyboard-row">
+                    <div class="key wider" data-key="Shift">Shift</div>
+                    <div class="key" data-key="z">Z</div>
+                    <div class="key" data-key="x">X</div>
+                    <div class="key" data-key="c">C</div>
+                    <div class="key" data-key="v">V</div>
+                    <div class="key" data-key="b">B</div>
+                    <div class="key" data-key="n">N</div>
+                    <div class="key" data-key="m">M</div>
+                    <div class="key" data-key=",">,</div>
+                    <div class="key" data-key=".">.</div>
+                    <div class="key" data-key="/">/</div>
+                    <div class="key wider" data-key="Shift">Shift</div>
+                </div>
+                <div class="keyboard-row">
+                    <div class="key" data-key="Control">Ctrl</div>
+                    <div class="key" data-key="Alt">Alt</div>
+                    <div class="key widest" data-key=" ">Space</div>
+                    <div class="key" data-key="Alt">Alt</div>
+                    <div class="key" data-key="Control">Ctrl</div>
+                </div>
             </div>
-            <div class="project-grid">
-                <div class="project-card">
-                    <h3>Проект 1</h3>
-                    <p>Краткое описание первого проекта.</p>
+            
+            <!-- Mouse element -->
+            <div class="mouse">
+                <div class="mouse-body">
+                    <div class="mouse-button left"></div>
+                    <div class="mouse-button right"></div>
+                    <div class="mouse-scroll"></div>
                 </div>
-                <div class="project-card">
-                    <h3>Проект 2</h3>
-                    <p>Краткое описание второго проекта.</p>
-                </div>
+                <div class="mouse-cord"></div>
             </div>
-            <a href="#" class="button">Все проекты</a>
-        </section>
-
-        <!-- Раздел 3: Статьи -->
-        <section id="articles" class="section">
-            <div class="article-grid">
-                <div class="article-card">
-                    <img src="article1.jpg" alt="Статья 1">
-                    <h3>Заголовок статьи 1</h3>
-                    <p>Краткое описание статьи. Здесь можно добавить немного текста.</p>
-                </div>
-                <div class="article-card">
-                    <img src="article2.jpg" alt="Статья 2">
-                    <h3>Заголовок статьи 2</h3>
-                    <p>Краткое описание статьи. Здесь можно добавить немного текста.</p>
-                </div>
-                <div class="article-card">
-                    <img src="article3.jpg" alt="Статья 3">
-                    <h3>Заголовок статьи 3</h3>
-                    <p>Краткое описание статьи. Здесь можно добавить немного текста.</p>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Подвал -->
-    <footer class="fixed-footer">
-        <p>&copy; 2023 Мой сайт. Все права защищены.</p>
-    </footer>
-
-    <script src="script.js"></script>
+        </div>
+    </div>
+    
+    <div class="mobile-warning">
+        <div class="warning-content">
+            <h2>Desktop Required</h2>
+            <p>This terminal experience is designed for desktop use.</p>
+            <p>Please visit on a desktop device for the full experience.</p>
+            <button id="continue-anyway">Continue Anyway</button>
+        </div>
+    </div>
 </body>
 </html>

@@ -422,7 +422,7 @@ header {
 }
 
 .article-container blockquote p::before {
-    content: """;
+    content: "";
     font-size: 3rem;
     color: var(--accent-color);
     opacity: 0.2;
