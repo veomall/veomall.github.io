@@ -9,7 +9,7 @@
 </head>
 <body>
     <header class="main-header">
-        <h1>Статьи</h1>
+        <h1>Писульки на почитать</h1>
         <div class="header-controls">
             <a href="https://veomall.github.io" class="site-link">Veomall</a>
             <button class="theme-toggle" id="themeToggle">
@@ -191,8 +191,9 @@
                 
                 return `
                     <a href="article.html?path=${encodeURIComponent(article.path)}" class="article-card">
-                        <div class="card-image" style="background-color: var(--bg-color);">
-                            <div class="card-image-inner" style="background-image: url('${imagePath}')"></div>
+                        <div class="card-image">
+                            <div class="blurred-bg" style="background-image: url('${imagePath}')"></div>
+                            <img class="card-image-inner" src="${imagePath}" alt="${article.title}">
                         </div>
                         <div class="card-content">
                             <div class="card-date">
@@ -211,13 +212,6 @@
                     </a>
                 `;
             }).join('');
-            
-            // Добавляем размытую копию изображения в псевдоэлемент
-            document.querySelectorAll('.card-image').forEach(card => {
-                const imgPath = card.querySelector('.card-image-inner').style.backgroundImage;
-                card.style.setProperty('--bg-image', imgPath);
-                card.style.backgroundImage = imgPath;
-            });
             
             // Добавляем обработчики для тегов в карточках
             document.querySelectorAll('.article-tag').forEach(tag => {
