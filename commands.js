@@ -7,9 +7,12 @@ const commandProcessor = {
     // Current directory
     currentDirectory: '/',
     
+    // Previous directory for cd -
+    previousDirectory: '/',
+    
     // Simulated file system
     fileSystem: {
-        '': {
+        '/': {
             type: 'directory',
             contents: ['blog', 'projects']
         },
@@ -135,6 +138,8 @@ const commandProcessor = {
             { text: "  whoami   - Display information about Heorhi Prystrom", className: 'info' },
             { text: "  ls       - List directory contents", className: 'info' },
             { text: "  cd       - Change directory", className: 'info' },
+            { text: "  cd ..    - Move up one directory", className: 'info' },
+            { text: "  cd -     - Go to the previous directory", className: 'info' },
             { text: "  pwd      - Print working directory", className: 'info' },
             { text: "  cat      - View file (opens link in new tab)", className: 'info' },
             { text: "  clear    - Clear the terminal screen", className: 'info' },
@@ -222,12 +227,30 @@ const commandProcessor = {
      * @returns {Array} - Result of the operation
      */
     cdCommand(targetDir) {
+        // Store the previous directory before changing
+        const oldDir = this.currentDirectory;
+        
+        // Handle case with no arguments (go to root)
         if (!targetDir) {
+            this.previousDirectory = this.currentDirectory;
             this.currentDirectory = '/';
             if (window.updatePrompt) {
                 window.updatePrompt(this.currentDirectory);
             }
             return [{ text: "Changed to root directory", className: 'success' }];
+        }
+        
+        // Handle cd - (go to previous directory)
+        if (targetDir === '-') {
+            const tempDir = this.currentDirectory;
+            this.currentDirectory = this.previousDirectory;
+            this.previousDirectory = tempDir;
+            
+            if (window.updatePrompt) {
+                window.updatePrompt(this.currentDirectory);
+            }
+            
+            return [{ text: `Changed to ${this.currentDirectory}`, className: 'success' }];
         }
         
         let newPath;
@@ -261,6 +284,8 @@ const commandProcessor = {
             return [{ text: `Not a directory: ${targetDir}`, className: 'error' }];
         }
         
+        // Save previous directory before changing
+        this.previousDirectory = oldDir;
         this.currentDirectory = newPath;
         
         // Update the prompt immediately

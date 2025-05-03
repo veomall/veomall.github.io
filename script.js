@@ -56,10 +56,11 @@ document.addEventListener('DOMContentLoaded', function() {
         terminalInput.addEventListener('keydown', function(e) {
             if (e.key === 'Enter') {
                 const input = terminalInput.value.trim();
+                
+                // Always display prompt line, even if no command is entered
+                addToTerminal(`${promptElement.textContent} ${input}`, input ? 'command' : 'empty-command');
+                
                 if (input) {
-                    // Display the entered command
-                    addToTerminal(`${promptElement.textContent} ${input}`, 'command');
-                    
                     // Process the command if command processor is loaded
                     if (window.commandProcessor) {
                         const output = window.commandProcessor.processCommand(input);
@@ -78,9 +79,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         // Update prompt with current directory
                         window.updatePrompt(window.commandProcessor.currentDirectory);
                     }
-                    
-                    terminalInput.value = '';
                 }
+                
+                terminalInput.value = '';
             }
             
             // Always refocus the input after any key press
@@ -203,8 +204,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 let options = [];
                 
-                // Add special navigation options
-                if (firstWord === 'cd') options.push('..');
+                // Add special navigation options for cd
+                if (firstWord === 'cd') {
+                    options.push('..');
+                    options.push('-'); // Add the cd - option for returning to previous directory
+                }
                 
                 // Add contents of current directory
                 if (currentDirObj.contents) {

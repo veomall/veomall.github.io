@@ -386,6 +386,12 @@ body {
     font-style: italic;
 }
 
+/* Add a style for the empty command (just pressing Enter) */
+.empty-command {
+    color: #77AADD; /* Slightly more dimmed than regular commands */
+    opacity: 0.8;
+}
+
 /* Mobile warning */
 .mobile-warning {
     position: fixed;
