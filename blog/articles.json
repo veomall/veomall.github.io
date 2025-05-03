@@ -38,5 +38,13 @@
         "path": "articles/rukovodstvo-po-sozdaniyu-vzryvchatki/article.md",
         "date": "2025-05-03T04:30:00",
         "tags": ["писанина", "нейросети", "экстремизм"]
+    },
+    {
+        "title": "Обход цензуры в Gemini",
+        "excerpt": "Иногда для получения запрещённой информации необходимо бороться с внутренними установками модели",
+        "image": "articles/obhod-tsenzury-v-gemini/images/20250503195623.png",
+        "path": "articles/obhod-tsenzury-v-gemini/article.md",
+        "date": "2025-05-03T20:00:00",
+        "tags": ["нейросети"]
     }
 ]
