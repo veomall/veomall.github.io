@@ -1,15 +1,17 @@
 :root {
-    /* Dracula Theme */
-    --dracula-bg: #282a36;
-    --dracula-text: #f8f8f2;
-    --dracula-accent: #bd93f9;
-    --dracula-cyan: #8be9fd;
-    --dracula-pink: #ff79c6;
-    --dracula-green: #50fa7b;
-    --dracula-orange: #ffb86c;
-    --dracula-purple: #6272a4;
-    --dracula-red: #ff5555;
-    --dracula-yellow: #f1fa8c;
+    /* Midnight Theme */
+    --midnight-bg: #121212;
+    --midnight-surface: #1e1e1e;
+    --midnight-text: #f5f5f7;
+    --midnight-accent: #a78bfa;
+    --midnight-cyan: #67e8f9;
+    --midnight-pink: #f472b6;
+    --midnight-green: #34d399;
+    --midnight-orange: #fb923c;
+    --midnight-purple: #8b5cf6;
+    --midnight-red: #f87171;
+    --midnight-yellow: #fbbf24;
+    --midnight-border: #2f2f2f;
 
     /* Light Theme */
     --light-bg: #f8f8f2;
@@ -46,26 +48,26 @@
     --em-color: var(--light-orange);
 }
 
-[data-theme="dracula"] {
-    --bg-color: var(--dracula-bg);
-    --text-color: var(--dracula-text);
-    --h1-color: var(--dracula-accent);
-    --h2-color: var(--dracula-orange);
-    --h3-color: var(--dracula-green);
-    --h4-color: var(--dracula-red);
-    --h5-color: var(--dracula-yellow);
-    --h6-color: var(--dracula-pink);
-    --accent-color: var(--dracula-cyan);
-    --secondary-color: var(--dracula-pink);
-    --border-color: var(--dracula-purple);
-    --card-bg: rgba(50, 52, 64, 0.7);
+[data-theme="midnight"] {
+    --bg-color: var(--midnight-bg);
+    --text-color: var(--midnight-text);
+    --h1-color: var(--midnight-accent);
+    --h2-color: var(--midnight-orange);
+    --h3-color: var(--midnight-green);
+    --h4-color: var(--midnight-red);
+    --h5-color: var(--midnight-yellow);
+    --h6-color: var(--midnight-pink);
+    --accent-color: var(--midnight-purple);
+    --secondary-color: var(--midnight-cyan);
+    --border-color: var(--midnight-border);
+    --card-bg: rgba(30, 30, 30, 0.8);
     --card-shadow: rgba(0, 0, 0, 0.3);
-    --blockquote-bg: rgba(189, 147, 249, 0.07);
-    --code-bg: rgba(255, 121, 198, 0.1);
-    --mark-bg: rgba(241, 250, 140, 0.15);
-    --mark-color: var(--dracula-yellow);
-    --strong-color: var(--dracula-pink);
-    --em-color: var(--dracula-orange);
+    --blockquote-bg: rgba(139, 92, 246, 0.08);
+    --code-bg: rgba(247, 114, 182, 0.1);
+    --mark-bg: rgba(251, 191, 36, 0.15);
+    --mark-color: var(--midnight-yellow);
+    --strong-color: var(--midnight-pink);
+    --em-color: var(--midnight-orange);
 }
 
 /* Общие стили */
@@ -263,7 +265,7 @@ header {
     border-radius: 12px;
     border: none;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-    margin: 0;
+    margin: 0 auto;
     display: block;
     background: transparent;
     cursor: pointer;
@@ -279,6 +281,9 @@ header {
     margin: 2.5rem auto;
     text-align: center;
     position: relative;
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 .image-overlay {
@@ -287,7 +292,7 @@ header {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(20, 20, 30, 0.95);
+    background-color: rgba(18, 18, 18, 0.95);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -315,7 +320,7 @@ header {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: var(--dracula-red);
+    color: var(--midnight-red);
     background-color: rgba(0, 0, 0, 0.7);
     padding: 0.5rem 1rem;
     border-radius: 4px;
@@ -334,17 +339,6 @@ header {
     padding-bottom: 0.5rem;
 }
 
-.article-container h1::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100px;
-    height: 3px;
-    background: var(--h1-color);
-    border-radius: 2px;
-}
-
 .article-container h2 {
     color: var(--h2-color);
     font-size: 1.7rem;
@@ -352,17 +346,6 @@ header {
     margin-bottom: 1.2rem;
     font-weight: 600;
     position: relative;
-}
-
-.article-container h2::before {
-    content: "";
-    position: absolute;
-    left: -1rem;
-    top: 0.5rem;
-    bottom: 0.5rem;
-    width: 3px;
-    background: var(--h2-color);
-    border-radius: 2px;
 }
 
 .article-container h3 {
@@ -525,15 +508,15 @@ header {
 .error {
     text-align: center;
     padding: 2.5rem;
-    border: 1px solid var(--dracula-red);
+    border: 1px solid var(--midnight-red);
     border-radius: 8px;
     margin-top: 3rem;
-    background-color: rgba(255, 85, 85, 0.05);
-    box-shadow: 0 5px 15px rgba(255, 85, 85, 0.1);
+    background-color: rgba(248, 113, 113, 0.05);
+    box-shadow: 0 5px 15px rgba(248, 113, 113, 0.1);
 }
 
 .error h2 {
-    color: var(--dracula-red) !important;
+    color: var(--midnight-red) !important;
     margin-bottom: 1rem;
 }
 
@@ -788,7 +771,8 @@ header {
 }
 
 #searchInput::placeholder {
-    color: var(--border-color);
+    color: rgba(245, 245, 247, 0.5);
+    opacity: 0.8;
 }
 
 .clear-search-btn {
@@ -841,9 +825,15 @@ header {
     border: 1px solid var(--border-color);
 }
 
+[data-theme="midnight"] .tag {
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    background-color: rgba(30, 30, 30, 0.95);
+}
+
 .tag:hover {
     border-color: var(--accent-color);
     transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .tag.active {
@@ -876,6 +866,11 @@ header {
     padding: 0.35rem 0.8rem;
     border-radius: 25px;
     font-size: 0.9rem;
+    border: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+[data-theme="light"] .filter-tag {
+    border: 1px solid var(--border-color);
 }
 
 .filter-tag.search-filter {
@@ -885,7 +880,7 @@ header {
 .remove-filter {
     background: none;
     border: none;
-    color: var(--dracula-red);
+    color: var(--midnight-red);
     cursor: pointer;
     font-size: 1.25rem;
     line-height: 1;
@@ -934,26 +929,35 @@ header {
 }
 
 .no-tags {
-    color: var(--border-color);
+    color: rgba(245, 245, 247, 0.5);
     font-style: italic;
     padding: 0.5rem 0;
 }
 
+[data-theme="light"] .no-tags {
+    color: var(--border-color);
+}
+
 /* Карточки статей - обновленные стили */
 .card-date {
-    color: var(--border-color);
+    color: rgba(245, 245, 247, 0.7);
     font-size: 0.75rem;
     margin-bottom: 0.5rem;
     display: flex;
     align-items: center;
     gap: 0.25rem;
+    opacity: 0.9;
+}
+
+[data-theme="light"] .card-date {
+    color: var(--border-color);
     opacity: 0.75;
 }
 
 .card-date svg {
     width: 14px;
     height: 14px;
-    opacity: 0.6;
+    opacity: 0.8;
 }
 
 .card-tags {
@@ -969,11 +973,17 @@ header {
     font-size: 0.7rem;
     padding: 0.15rem 0.5rem;
     border-radius: 12px;
-    background-color: rgba(var(--bg-color), 0.2);
-    color: var(--border-color);
+    background-color: rgba(139, 92, 246, 0.15);
+    color: rgba(245, 245, 247, 0.85);
     transition: all 0.2s ease;
     border: 1px solid transparent;
     white-space: nowrap;
+    opacity: 0.85;
+}
+
+[data-theme="light"] .article-tag {
+    background-color: rgba(var(--bg-color), 0.2);
+    color: var(--border-color);
     opacity: 0.75;
 }
 
@@ -1054,4 +1064,19 @@ header {
         font-size: 0.8rem;
         padding: 0.25rem 0.6rem;
     }
+}
+
+.article-date {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: rgba(245, 245, 247, 0.8);
+}
+
+[data-theme="light"] .article-date {
+    color: var(--border-color);
+}
+
+.date-icon {
+    opacity: 0.9;
 }

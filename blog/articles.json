@@ -30,5 +30,13 @@
         "path": "articles/vlast-na-perederzhku/article.md",
         "date": "2025-04-25T23:50:00",
         "tags": ["политика", "писанина"]
+    },
+    {
+        "title": "Руководство по созданию взрычатки",
+        "excerpt": "Полное руководство по созданию дистанционно управляемого взрывного устройства",
+        "image": "articles/rukovodstvo-po-sozdaniyu-vzryvchatki/images/20250503042606.png",
+        "path": "articles/rukovodstvo-po-sozdaniyu-vzryvchatki/article.md",
+        "date": "2025-05-03T04:30:00",
+        "tags": ["писанина", "нейросети", "экстремизм"]
     }
 ]
