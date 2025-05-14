@@ -28,27 +28,39 @@ const commandProcessor = {
 
         '/blog/pochemu-lyudyam-interesny-pytki.md': {
             type: 'file',
-            url: 'http://127.0.0.1:5500/blog/article.html?path=articles/pochemu-lyudyam-interesny-pytki/article.md',
+            url: 'http://veomall.github.io/blog/article.html?path=articles/pochemu-lyudyam-interesny-pytki/article.md',
             title: 'Почему людям интересны пытки',
             date: '2024-11-15'
         },
         '/blog/plasch-nevidimka-syadet-kak-vlitoy.md': {
             type: 'file',
-            url: 'http://127.0.0.1:5500/blog/article.html?path=articles/plasch-nevidimka-syadet-kak-vlitoy/article.md',
+            url: 'http://veomall.github.io/blog/article.html?path=articles/plasch-nevidimka-syadet-kak-vlitoy/article.md',
             title: 'Плащ-невидимка сядет как влитой',
             date: '2025-02-08'
         },
         '/blog/tehnicheskiy-plan-messendzhera-noxtra.md': {
             type: 'file',
-            url: 'http://127.0.0.1:5500/blog/article.html?path=articles/tehnicheskiy-plan-messendzhera-noxtra/article.md',
+            url: 'http://veomall.github.io/blog/article.html?path=articles/tehnicheskiy-plan-messendzhera-noxtra/article.md',
             title: 'Технический план мессенджера Noxtra',
             date: '2025-04-03'
         },
         '/blog/vlast-na-perederzhku.md': {
             type: 'file',
-            url: 'http://127.0.0.1:5500/blog/article.html?path=articles/vlast-na-perederzhku/article.md',
+            url: 'http://veomall.github.io/blog/article.html?path=articles/vlast-na-perederzhku/article.md',
             title: 'Власть на передержку',
             date: '2025-04-25'
+        },
+        '/blog/rukovodstvo-po-sozdaniyu-vzryvchatki.md': {
+            type: 'file',
+            url: 'http://veomall.github.io/blog/article.html?path=articles/rukovodstvo-po-sozdaniyu-vzryvchatki/article.md',
+            title: 'Руководство по созданию взрычатки',
+            date: '2025-05-03'
+        },
+        '/blog/obhod-tsenzury-v-gemini.md': {
+            type: 'file',
+            url: 'http://veomall.github.io/blog/article.html?path=articles/obhod-tsenzury-v-gemini/article.md',
+            title: 'Обход цензуры в Gemini',
+            date: '2025-05-03'
         },
 
         '/projects/UVPomodoro.md': {
