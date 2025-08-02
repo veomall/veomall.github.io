@@ -21,7 +21,7 @@
         "image": "articles/tehnicheskiy-plan-messendzhera-noxtra/images/noxtra.png",
         "path": "articles/tehnicheskiy-plan-messendzhera-noxtra/article.md",
         "date": "2025-04-03T16:45:00",
-        "tags": ["разработка", "noxtra"]
+        "tags": ["технологии", "noxtra"]
     },
     {
         "title": "Власть на передержку",
@@ -46,5 +46,13 @@
         "path": "articles/obhod-tsenzury-v-gemini/article.md",
         "date": "2025-05-03T20:00:00",
         "tags": ["нейросети"]
+    },
+    {
+        "title": "Java работает на 3 млрд устройств. А зачем?",
+        "excerpt": "Java — это язык программирования, который используется на более чем 3 миллиардах устройств по всему миру. Но что стоит за этим числом? Почему Java так популярна и как она влияет на современный мир технологий?",
+        "image": "articles/java-rabotaet-na-3-mlrd-ustroystv-a-zachem/images/java.png",
+        "path": "articles/java-rabotaet-na-3-mlrd-ustroystv-a-zachem/article.md",
+        "date": "2025-08-02T16:10:00",
+        "tags": ["писанина", "технологии"]
     }
 ]
