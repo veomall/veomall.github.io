@@ -6,6 +6,29 @@ document.addEventListener('DOMContentLoaded', function() {
     const mouse = document.querySelector('.mouse-body');
     const mouseButtons = document.querySelectorAll('.mouse-button');
     const promptElement = document.querySelector('.prompt');
+    let userIP = 'terminal'; // По умолчанию
+
+    // Получаем IP пользователя
+    fetch('https://api.ipify.org?format=json')
+        .then(response => response.json())
+        .then(data => {
+            userIP = data.ip || 'terminal';
+            updatePromptWithIP();
+        })
+        .catch(() => {
+            userIP = 'terminal';
+            updatePromptWithIP();
+        });
+
+    function updatePromptWithIP(directory) {
+        if (promptElement) {
+            const dir = directory !== undefined ? directory : (window.commandProcessor ? window.commandProcessor.currentDirectory : '/');
+            promptElement.textContent = `veomall@${userIP}${dir === '/' ? '' : dir}:~$`;
+        }
+    }
+
+    let commandHistory = [];
+    let historyIndex = -1;
     
     // Import command processor
     import('./commands.js')
@@ -18,9 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Set up directory change event listener
             window.updatePrompt = function(directory) {
-                if (promptElement) {
-                    promptElement.textContent = `veomall@terminal${directory === '/' ? '' : directory}:~$`;
-                }
+                updatePromptWithIP(directory);
             };
             
             // Initialize tab completion
@@ -48,14 +69,14 @@ document.addEventListener('DOMContentLoaded', function() {
         // Set initial focus
         terminalInput.focus();
         
-        // Keep focus on the input field
-        terminalInput.addEventListener('blur', function() {
-            setTimeout(() => terminalInput.focus(), 10);
-        });
-        
         terminalInput.addEventListener('keydown', function(e) {
             if (e.key === 'Enter') {
                 const input = terminalInput.value.trim();
+
+                if (input) {
+                    commandHistory.push(input);
+                    historyIndex = commandHistory.length; // Сбрасываем индекс
+                }
                 
                 // Always display prompt line, even if no command is entered
                 addToTerminal(`${promptElement.textContent} ${input}`, input ? 'command' : 'empty-command');
@@ -64,16 +85,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Process the command if command processor is loaded
                     if (window.commandProcessor) {
                         const output = window.commandProcessor.processCommand(input);
+                        
                         if (Array.isArray(output)) {
-                            output.forEach(line => {
-                                if (typeof line === 'object') {
-                                    addToTerminal(line.text, line.className || '');
-                                } else {
-                                    addToTerminal(line);
-                                }
-                            });
+                            output.forEach(item => addToTerminal(item));
                         } else if (output) {
-                            addToTerminal(output);
+                            addToTerminal(output); // Для команд, возвращающих простую строку
                         }
                         
                         // Update prompt with current directory
@@ -83,24 +99,53 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 terminalInput.value = '';
             }
+
+            if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                if (historyIndex > 0) {
+                    historyIndex--;
+                    terminalInput.value = commandHistory[historyIndex];
+                }
+            }
+
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                if (historyIndex < commandHistory.length - 1) {
+                    historyIndex++;
+                    terminalInput.value = commandHistory[historyIndex];
+                } else {
+                    // Если дошли до конца, очищаем поле ввода
+                    historyIndex = commandHistory.length;
+                    terminalInput.value = '';
+                }
+            }
             
             // Always refocus the input after any key press
-            setTimeout(() => terminalInput.focus(), 10);
+            setTimeout(() => terminalInput.focus(), 2);
         });
         
         // Make sure the input is focused when clicking anywhere in the terminal
-        document.querySelector('.terminal').addEventListener('click', function() {
-            terminalInput.focus();
+        document.querySelector('.terminal').addEventListener('click', function(e) {
+            const selection = window.getSelection().toString();
+    
+            // Если клик был НЕ внутри области вывода И нет выделенного текста,
+            // то фокусируемся на поле ввода.
+            if (!e.target.closest('.terminal-output') && selection.length === 0) {
+                terminalInput.focus();
+            }
         });
         
-        // Global click event to refocus terminal
-        document.addEventListener('click', function() {
-            terminalInput.focus();
+        // Global click event: если клик вне терминала — фокус на поле ввода
+        document.addEventListener('click', function(e) {
+            const terminal = document.querySelector('.terminal');
+            if (!terminal.contains(e.target)) {
+                terminalInput.focus();
+            }
         });
         
         // Set the initial prompt
         if (promptElement) {
-            promptElement.textContent = 'veomall@terminal:~$';
+            promptElement.textContent = `veomall@${userIP}:~$`;
         }
         
         // Autofocus again on window focus
@@ -185,11 +230,14 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!window.commandProcessor) return [];
         
         if (isFirstWord) {
-            // Complete command names
-            const commands = [
-                'help', 'whoami', 'ls', 'cd', 'cat', 'pwd', 'clear', 'echo', 'date'
-            ];
-            return commands.filter(cmd => cmd.startsWith(currentWord.toLowerCase()));
+            // Динамически получаем список команд!
+            const allCommands = Object.keys(window.commandProcessor);
+            // Фильтруем только функции-команды
+            const commands = allCommands.filter(key => typeof window.commandProcessor[key] === 'function' && key.endsWith('Command'));
+            // Убираем "Command" из названия для пользователя
+            const commandNames = commands.map(cmd => cmd.replace('Command', ''));
+            
+            return commandNames.filter(cmd => cmd.startsWith(currentWord.toLowerCase()));
         } else {
             // Complete file/directory names
             const firstWord = terminalInput.value.trim().split(/\s+/)[0].toLowerCase();
@@ -207,7 +255,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Add special navigation options for cd
                 if (firstWord === 'cd') {
                     options.push('..');
-                    options.push('-'); // Add the cd - option for returning to previous directory
                 }
                 
                 // Add contents of current directory
@@ -307,20 +354,87 @@ document.addEventListener('DOMContentLoaded', function() {
             mouseButtons[1].classList.remove('pressed');
         }
     });
+
+    keys.forEach(key => {
+        key.addEventListener('click', function() {
+            const keyData = this.getAttribute('data-key');
+            
+            // Устанавливаем фокус на поле ввода
+            terminalInput.focus();
+
+            switch (keyData) {
+                case 'Enter':
+                    // Создаем и отправляем событие 'keydown' для клавиши Enter,
+                    // чтобы использовать уже существующую логику
+                    const enterEvent = new KeyboardEvent('keydown', { key: 'Enter', bubbles: true });
+                    terminalInput.dispatchEvent(enterEvent);
+                    break;
+                case 'Backspace':
+                    // Удаляем последний символ
+                    terminalInput.value = terminalInput.value.slice(0, -1);
+                    break;
+                case 'Tab':
+                    // Симулируем нажатие Tab для автодополнения
+                    const tabEvent = new KeyboardEvent('keydown', { key: 'Tab', bubbles: true, cancelable: true });
+                    terminalInput.dispatchEvent(tabEvent);
+                    break;
+                case ' ':
+                    // Добавляем пробел
+                    terminalInput.value += ' ';
+                    break;
+                // Игнорируем управляющие клавиши, которые не вводят символ при клике
+                case 'Escape':
+                case 'F1': case 'F2': case 'F3': case 'F4': case 'F5': case 'F6': 
+                case 'F7': case 'F8': case 'F9': case 'F10': case 'F11': case 'F12':
+                case 'CapsLock':
+                case 'Shift':
+                case 'Control':
+                case 'Alt':
+                    break; // Ничего не делаем
+                default:
+                    // Для всех остальных клавиш просто добавляем их значение в поле ввода
+                    terminalInput.value += keyData;
+                    break;
+            }
+        });
+    });
     
     // Prevent context menu on right click
     document.addEventListener('contextmenu', function(e) {
         e.preventDefault();
     });
     
-    function addToTerminal(text, className = '') {
+    function addToTerminal(outputItem) {
         const line = document.createElement('div');
-        line.className = `output-line ${className}`;
-        line.textContent = text;
-        terminalOutput.appendChild(line);
         
-        // Auto-scroll to bottom
-        terminalOutput.scrollTop = terminalOutput.scrollHeight;
+        // Обрабатываем простой текст (например, из 'echo')
+        if (typeof outputItem === 'string') {
+            line.className = 'output-line';
+            line.textContent = outputItem;
+        } 
+        // Обрабатываем сложный объект (из 'whoami', 'cat', 'help' и др.)
+        else if (typeof outputItem === 'object' && outputItem !== null) {
+            line.className = `output-line ${outputItem.className || ''}`;
+
+            // Если это объект-ссылка, создаем тег <a>
+            if (outputItem.isLink) {
+                const link = document.createElement('a');
+                link.href = outputItem.url;
+                link.target = '_blank'; // Открывать в новой вкладке
+                link.rel = 'noopener noreferrer'; // Для безопасности
+                
+                // Берем текст из объекта, например "Link: http://..."
+                link.textContent = outputItem.text;
+                
+                line.appendChild(link); // Вставляем ссылку в строку вывода
+            } else {
+                // Иначе просто выводим текст
+                line.textContent = outputItem.text;
+            }
+        }
+
+        terminalOutput.appendChild(line);
+        terminalOutput.scrollTop = terminalOutput.scrollHeight; // Авто-прокрутка
     }
     
     function showPrompt() {

@@ -7,9 +7,6 @@ const commandProcessor = {
     // Current directory
     currentDirectory: '/',
     
-    // Previous directory for cd -
-    previousDirectory: '/',
-    
     // Simulated file system
     fileSystem: {
         '/': {
@@ -23,81 +20,100 @@ const commandProcessor = {
         },
         '/projects': {
             type: 'directory',
-            contents: ['UVPomodoro.md', 'UVScreenNotes.md', 'veomall.github.io.md', 'UVDocScanner.md', 'UVTranslator.md', 'UVDirectoryMapper.md']
+            contents: ['UVPomodoro.git', 'UVScreenNotes.git', 'veomall.github.io', 'UVDocScanner.git', 'UVTranslator.git', 'UVDirectoryMapper.git']
         },
 
         '/blog/pochemu-lyudyam-interesny-pytki.md': {
             type: 'file',
             url: 'http://veomall.github.io/blog/article.html?path=articles/pochemu-lyudyam-interesny-pytki/article.md',
             title: 'Почему людям интересны пытки',
-            date: '2024-11-15'
+            date: '2024-11-15',
+            summary: 'Некоторое время назад я посетил музей, в котором последний зал посвящён средневековым орудиям пыток и казни. Мое внимание обратили на количество людей, которые фотографировали орудия пыток и фотографировались на их фоне. '
         },
         '/blog/plasch-nevidimka-syadet-kak-vlitoy.md': {
             type: 'file',
             url: 'http://veomall.github.io/blog/article.html?path=articles/plasch-nevidimka-syadet-kak-vlitoy/article.md',
             title: 'Плащ-невидимка сядет как влитой',
-            date: '2025-02-08'
+            date: '2025-02-08',
+            summary: 'Анализ современных технологий маскировки и их потенциального применения в ближайшем будущем.'
         },
         '/blog/tehnicheskiy-plan-messendzhera-noxtra.md': {
             type: 'file',
             url: 'http://veomall.github.io/blog/article.html?path=articles/tehnicheskiy-plan-messendzhera-noxtra/article.md',
             title: 'Технический план мессенджера Noxtra',
-            date: '2025-04-03'
+            date: '2025-04-03',
+            summary: 'План по созданию мессенджера Noxtra, который будет использоваться для приватного и анонимного общения. Он включает в себя описание архитектуры, технологий и функциональности.'
         },
         '/blog/vlast-na-perederzhku.md': {
             type: 'file',
             url: 'http://veomall.github.io/blog/article.html?path=articles/vlast-na-perederzhku/article.md',
             title: 'Власть на передержку',
-            date: '2025-04-25'
+            date: '2025-04-25',
+            summary: 'Анализ путей передачи власти в автократических режимах.'
         },
         '/blog/rukovodstvo-po-sozdaniyu-vzryvchatki.md': {
             type: 'file',
             url: 'http://veomall.github.io/blog/article.html?path=articles/rukovodstvo-po-sozdaniyu-vzryvchatki/article.md',
             title: 'Руководство по созданию взрычатки',
-            date: '2025-05-03'
+            date: '2025-05-03',
+            summary: 'Руководство по созданию взрычатки, которое включает в себя описание необходимых материалов, инструментов и шагов для создания.'
         },
         '/blog/obhod-tsenzury-v-gemini.md': {
             type: 'file',
             url: 'http://veomall.github.io/blog/article.html?path=articles/obhod-tsenzury-v-gemini/article.md',
             title: 'Обход цензуры в Gemini',
-            date: '2025-05-03'
+            date: '2025-05-03',
+            summary: 'Инструкция по обходу цензуры в Gemini.'
+        },
+        '/blog/java-rabotaet-na-3-mlrd-ustroystv-a-zachem.md': {
+            type: 'file',
+            url: 'http://veomall.github.io/blog/article.html?path=articles/java-rabotaet-na-3-mlrd-ustroystv-a-zachem/article.md',
+            title: 'Java работает на 3 млрд устройств. А зачем?',
+            date: '2025-08-02',
+            summary: 'Принцип работы виртуальной машины Java и её использование в современных приложениях.'
         },
 
+        '/projects/veomall.github.io.md': {
+            type: 'file',
+            url: 'https://github.com/veomall/veomall.github.io',
+            title: 'Personal website',
+            date: '2025-05-03',
+            summary: 'Личная страница разработчика Георгия Пристрома, где размещены статьи, проекты и контактная информация.'
+        },
         '/projects/UVPomodoro.md': {
             type: 'file',
             url: 'https://github.com/veomall/UVPomodoro',
             title: 'Customizable Pomodoro timer',
-            date: '2024-10-04'
+            date: '2024-10-04',
+            summary: 'Высококастомизируемый таймер Помодоро.'
         },
         '/projects/UVScreenNotes.md': {
             type: 'file',
             url: 'https://github.com/veomall/UVScreenNotes',
             title: 'Screen notes',
-            date: '2025-01-14'
-        },
-        '/projects/veomall.github.io.md': {
-            type: 'file',
-            url: 'https://github.com/veomall/veomall.github.io',
-            title: 'Personal website',
-            date: '2025-05-03'
+            date: '2025-01-14',
+            summary: 'Рисование и расположение заметок на экране с закрепление их поверх всех окон.'
         },
         '/projects/UVDocScanner.md': {
             type: 'file',
             url: 'https://github.com/veomall/UVDocScanner',
             title: 'Computer vision screen capture',
-            date: '2025-01-02'
+            date: '2025-01-02',
+            summary: 'Сканирование документов с экрана с помощью компьютерного зрения.',
         },
         '/projects/UVTranslator.md': {
             type: 'file',
             url: 'https://github.com/veomall/UVTranslator',
-            title: 'Permanent translator',
-            date: '2025-02-27'
+            title: 'Instant translator',
+            date: '2025-02-27',
+            summary: 'Перевод текста из буфера обмена в реальном времени.',
         },
         '/projects/UVDirectoryMapper.md': {
             type: 'file',
             url: 'https://github.com/veomall/UVDirectoryMapper',
             title: 'Directory mapper',
-            date: '2025-01-10'
+            date: '2025-01-10',
+            summary: 'Построение карты директорий и файлов в виде дерева с возможностью создания изображений.',
         }
     },
     
@@ -119,10 +135,6 @@ const commandProcessor = {
                 return this.whoamiCommand();
             case 'clear':
                 return this.clearCommand();
-            case 'echo':
-                return this.echoCommand(args.slice(1));
-            case 'date':
-                return this.dateCommand();
             case 'ls':
                 return this.lsCommand();
             case 'cd':
@@ -145,18 +157,14 @@ const commandProcessor = {
      */
     helpCommand() {
         return [
-            { text: "Available Commands:", className: 'success' },
             { text: "  help     - Display this help information", className: 'info' },
             { text: "  whoami   - Display information about Heorhi Prystrom", className: 'info' },
             { text: "  ls       - List directory contents", className: 'info' },
             { text: "  cd       - Change directory", className: 'info' },
             { text: "  cd ..    - Move up one directory", className: 'info' },
-            { text: "  cd -     - Go to the previous directory", className: 'info' },
             { text: "  pwd      - Print working directory", className: 'info' },
             { text: "  cat      - View file (opens link in new tab)", className: 'info' },
-            { text: "  clear    - Clear the terminal screen", className: 'info' },
-            { text: "  echo     - Display a message", className: 'info' },
-            { text: "  date     - Display the current date and time", className: 'info' }
+            { text: "  clear    - Clear the terminal screen", className: 'info' }
         ];
     },
     
@@ -166,15 +174,15 @@ const commandProcessor = {
      */
     whoamiCommand() {
         return [
-            { text: "Heorhi Prystrom", className: 'success' },
-            { text: "-------------------", className: 'info' },
-            { text: "Python software and web developer.", className: 'info' },
-            { text: "Passionate about creating clean, efficient, and user-friendly interfaces, focused on customization.", className: 'info' },
-            { text: "Currently focused on advancing skills in computer science and machine learning.", className: 'info' },
-            { text: "Always looking for new challenges and opportunities to grow.", className: 'info' },
-            { text: "", className: 'info' },
-            { text: "Contact: heorhiprystrom@gmail.com", className: 'warning' },
-            { text: "GitHub: https://github.com/veomall", className: 'warning' }
+            { text: "Heorhi Prystrom", className: 'info' },
+            { text: "---", className: 'error' },
+            { text: "Python software and web developer." },
+            { text: "Passionate about creating clean, efficient, and user-friendly interfaces, focused on customization." },
+            { text: "Currently focused on advancing skills in computer science and machine learning." },
+            { text: "Always looking for new challenges and opportunities to grow." },
+            { text: "---", className: 'error' },
+            { text: "Contact: heorhiprystrom@gmail.com", className: 'warning', isLink: true, url: "mailto:heorhiprystrom@gmail.com" },
+            { text: "GitHub: github.com/veomall", className: 'warning', isLink: true, url: "https://github.com/veomall" }
         ];
     },
     
@@ -185,23 +193,6 @@ const commandProcessor = {
         // Special handling in the calling code
         document.getElementById('terminal-output').innerHTML = '';
         return null;
-    },
-    
-    /**
-     * Implementation of the echo command
-     * @param {Array} args - Arguments to echo
-     * @returns {string} - The echoed message
-     */
-    echoCommand(args) {
-        return args.join(' ');
-    },
-    
-    /**
-     * Implementation of the date command
-     * @returns {string} - The current date and time
-     */
-    dateCommand() {
-        return new Date().toString();
     },
     
     /**
@@ -216,7 +207,7 @@ const commandProcessor = {
             return [{ text: `Cannot list contents: ${path} is not a directory`, className: 'error' }];
         }
         
-        const output = [{ text: `Contents of ${path}:`, className: 'success' }];
+        const output = [];
         
         if (dir.contents.length === 0) {
             output.push({ text: "  (empty directory)", className: 'info' });
@@ -225,7 +216,7 @@ const commandProcessor = {
                 const fullPath = path === '/' ? `/${item}` : `${path}/${item}`;
                 const isDir = this.fileSystem[fullPath]?.type === 'directory';
                 const display = isDir ? `${item}/` : item;
-                const className = isDir ? 'warning' : 'info';
+                const className = 'info';
                 output.push({ text: `  ${display}`, className });
             });
         }
@@ -244,25 +235,10 @@ const commandProcessor = {
         
         // Handle case with no arguments (go to root)
         if (!targetDir) {
-            this.previousDirectory = this.currentDirectory;
             this.currentDirectory = '/';
             if (window.updatePrompt) {
                 window.updatePrompt(this.currentDirectory);
             }
-            return [{ text: "Changed to root directory", className: 'success' }];
-        }
-        
-        // Handle cd - (go to previous directory)
-        if (targetDir === '-') {
-            const tempDir = this.currentDirectory;
-            this.currentDirectory = this.previousDirectory;
-            this.previousDirectory = tempDir;
-            
-            if (window.updatePrompt) {
-                window.updatePrompt(this.currentDirectory);
-            }
-            
-            return [{ text: `Changed to ${this.currentDirectory}`, className: 'success' }];
         }
         
         let newPath;
@@ -297,15 +273,12 @@ const commandProcessor = {
         }
         
         // Save previous directory before changing
-        this.previousDirectory = oldDir;
         this.currentDirectory = newPath;
         
         // Update the prompt immediately
         if (window.updatePrompt) {
             window.updatePrompt(this.currentDirectory);
         }
-        
-        return [{ text: `Changed to ${newPath}`, className: 'success' }];
     },
     
     /**
@@ -315,40 +288,38 @@ const commandProcessor = {
      */
     catCommand(filename) {
         if (!filename) {
-            return [{ text: "Please specify a file", className: 'error' }];
+            return [{ text: "Usage: cat <filename>", className: 'error' }];
         }
         
-        let filePath;
-        if (filename.startsWith('/')) {
-            // Absolute path
-            filePath = filename;
-        } else {
-            // Relative path
-            filePath = this.currentDirectory === '/' 
-                ? `/${filename}` 
-                : `${this.currentDirectory}/${filename}`;
-        }
-        
-        // Normalize path
+        let filePath = this.currentDirectory === '/' 
+            ? `/${filename}` 
+            : `${this.currentDirectory}/${filename}`;
         filePath = filePath.replace(/\/+/g, '/');
         
         const file = this.fileSystem[filePath];
+        
         if (!file) {
             return [{ text: `File not found: ${filename}`, className: 'error' }];
         }
         
         if (file.type !== 'file') {
-            return [{ text: `Not a file: ${filename}`, className: 'error' }];
+            return [{ text: `cat: ${filename}: Is a directory`, className: 'error' }];
         }
         
-        // Open the URL in a new tab
-        window.open(file.url, '_blank');
-        
-        return [
-            { text: `Opening ${file.title}...`, className: 'success' },
-            { text: `URL: ${file.url}`, className: 'info' },
-            { text: `Date: ${file.date}`, className: 'info' }
+        // Формируем структурированный вывод
+        const output = [
+            { text: `Title: ${file.title}` },
+            { text: `Date:  ${file.date}` }
         ];
+
+        if (file.summary) {
+            output.push({ text: `About: ${file.summary}` });
+        }
+        
+        // Добавляем специальный объект для ссылки
+        output.push({ text: `Link:  ${file.url}`, isLink: true, url: file.url });
+        
+        return output;
     },
     
     /**

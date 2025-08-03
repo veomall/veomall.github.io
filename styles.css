@@ -1,45 +1,77 @@
-/* Основные переменные и сброс стилей */
 :root {
-    /* Цвета терминала */
-    --terminal-bg: #0a0a0a;
-    --terminal-green: #33ff33;
-    --terminal-dim: #22aa22;
-    --terminal-text: #33ff33;
-    --terminal-error: #ff4444;
-    --terminal-success: #55FF55;
-    --terminal-warning: #FFAA55;
-    --terminal-info: #55AAFF;
-    --terminal-prompt: #33ff66;
-    --terminal-cursor: #33ff33;
-    --terminal-glow: 0 0 5px rgba(51, 255, 51, 0.5);
-    --terminal-border: 1px solid #33ff33;
-    
+    --terminal-bg: #0D0C0F;
+    --terminal-main: #ffffff;
+    --lavender-glow-color: rgba(209, 179, 255, 0.6);
+    --terminal-text: var(--terminal-main);
+    --terminal-prompt: var(--terminal-main);
+    --terminal-cursor: var(--terminal-main);
+    --terminal-glow: 0 0 8px var(--lavender-glow-color); /* Усилим свечение */
+    --terminal-border: 1px solid var(--terminal-main);
+    --terminal-dim: var(--terminal-main);
+    --terminal-error: #e64856;
+    --terminal-success: #0cc503;
+    --terminal-warning: #c09b00;
+    --terminal-info: #f8f2a6;
+
     /* Цвета и стили монитора */
-    --monitor-frame: #222;
-    --monitor-frame-dark: #151515;
-    --monitor-screen-border: #505050;
+    --monitor-frame: #181818;
+    --monitor-frame-dark: #000;
+    --monitor-screen-border: #444;
     --monitor-body: #888888;
     --monitor-dark: #444444;
-    --monitor-bg: #222;
+    --monitor-bg: #111;
     --monitor-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
     --monitor-edge: var(--monitor-frame);
     
     /* Цвета устройств ввода */
-    --keyboard-bg: #333;
-    --keyboard-key-shadow: #888888;
-    --mouse-button: #222;
-    --mouse-border: #444;
-    --key-bg: #222;
+    --keyboard-bg: #282828;
+    --keyboard-key-shadow: #777;
+    --mouse-button: #202020;
+    --mouse-border: #333;
+    --key-bg: #1a1a1a;
     --key-text: #DDD;
     --keyboard-key-bg: var(--key-bg);
     --keyboard-key-color: var(--key-text);
     --keyboard-key-border: #444;
-    --mouse-bg: #333;
+    --mouse-bg: #282828;
     
     /* Эффекты */
-    --crt-edge-glow: 0 0 15px rgba(51, 255, 51, 0.3);
-    --scanline-opacity: 0.15;
-    --glare-opacity: 0.1;
+    --crt-edge-glow: 0 0 20px var(--lavender-glow-color); /* Усилим */
+    --scanline-opacity: 0.1;
+    --glare-opacity: 0.08;
+}
+
+.terminal-output a {
+    color: var(--terminal-warning);
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.terminal-output a:hover {
+    color: var(--terminal-main);
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Стили для выделенного текста в терминале */
+.terminal-output::selection {
+    background-color: var(--terminal-main); /* Фон выделения */
+    color: var(--terminal-bg); /* Цвет текста при выделении */
+}
+
+/* Изменения в стилях вывода для лучшей читаемости с новой палитрой */
+.command {
+    color: var(--terminal-main); /* Яркая команда */
+    font-weight: bold;
+}
+
+.command-incomplete {
+    color: var(--terminal-main); /* Приглушенный цвет для автодополнения */
+    font-style: italic;
+}
+
+.empty-command {
+    color: var(--terminal-main);
+    opacity: 0.8;
 }
 
 * {
@@ -50,15 +82,14 @@
 
 body {
     font-family: 'Share Tech Mono', monospace;
-    background-color: #111;
     color: var(--terminal-text);
     height: 100vh;
     overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(to bottom, #1a1a1a, #333);
-    perspective: 1000px;
+    background: url(desktop.jpg) no-repeat center;
+    background-size: cover;
 }
 
 /* Retro container */
@@ -165,6 +196,8 @@ body {
     margin-bottom: 10px;
     scrollbar-width: thin;
     scrollbar-color: var(--terminal-dim) var(--terminal-bg);
+    user-select: text;
+    cursor: text;
 }
 
 .terminal-output::-webkit-scrollbar {
@@ -241,8 +274,9 @@ body {
 
 .keyboard-row {
     display: flex;
-    justify-content: center;
+    /* Убираем justify-content: center, flexbox сам распределит пространство */
     margin-bottom: 5px;
+    gap: 5px; /* Добавим небольшой зазор между клавишами */
 }
 
 .key {
@@ -255,24 +289,27 @@ body {
     border-radius: 4px;
     box-shadow: var(--keyboard-key-shadow);
     padding: 5px;
-    min-width: 30px;
     height: 30px;
-    margin: 0 2px;
+    /* margin: 0 2px; - убираем, будем использовать gap */
     font-size: 12px;
     transition: all 0.1s;
     user-select: none;
+    
+    /* Ключевое изменение: задаем базовую ширину и разрешаем расти */
+    flex: 1 1 0; /* flex-grow: 1, flex-shrink: 1, flex-basis: 0 */
+    min-width: 30px; /* Сохраним минимальную ширину */
 }
 
 .key.wide {
-    min-width: 60px;
+    flex-grow: 1.5;
 }
 
 .key.wider {
-    min-width: 80px;
+    flex-grow: 2.5;
 }
 
 .key.widest {
-    min-width: 200px;
+    flex-grow: 6;
 }
 
 .key:active, .key.active, .key.pressed {
