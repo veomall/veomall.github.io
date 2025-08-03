@@ -16,7 +16,7 @@ const commandProcessor = {
 
         '/blog': {
             type: 'directory',
-            contents: ['pochemu-lyudyam-interesny-pytki.md', 'plasch-nevidimka-syadet-kak-vlitoy.md', 'tehnicheskiy-plan-messendzhera-noxtra.md', 'vlast-na-perederzhku.md']
+            contents: ['pochemu-lyudyam-interesny-pytki.md', 'plasch-nevidimka-syadet-kak-vlitoy.md', 'tehnicheskiy-plan-messendzhera-noxtra.md', 'vlast-na-perederzhku.md', 'rukovodstvo-po-sozdaniyu-vzryvchatki.md', 'obhod-tsenzury-v-gemini.md', 'java-rabotaet-na-3-mlrd-ustroystv-a-zachem.md']
         },
         '/projects': {
             type: 'directory',
@@ -73,42 +73,42 @@ const commandProcessor = {
             summary: 'Принцип работы виртуальной машины Java и её использование в современных приложениях.'
         },
 
-        '/projects/veomall.github.io.md': {
+        '/projects/veomall.github.io': {
             type: 'file',
             url: 'https://github.com/veomall/veomall.github.io',
             title: 'Personal website',
             date: '2025-05-03',
             summary: 'Личная страница разработчика Георгия Пристрома, где размещены статьи, проекты и контактная информация.'
         },
-        '/projects/UVPomodoro.md': {
+        '/projects/UVPomodoro.git': {
             type: 'file',
             url: 'https://github.com/veomall/UVPomodoro',
             title: 'Customizable Pomodoro timer',
             date: '2024-10-04',
             summary: 'Высококастомизируемый таймер Помодоро.'
         },
-        '/projects/UVScreenNotes.md': {
+        '/projects/UVScreenNotes.git': {
             type: 'file',
             url: 'https://github.com/veomall/UVScreenNotes',
             title: 'Screen notes',
             date: '2025-01-14',
             summary: 'Рисование и расположение заметок на экране с закрепление их поверх всех окон.'
         },
-        '/projects/UVDocScanner.md': {
+        '/projects/UVDocScanner.git': {
             type: 'file',
             url: 'https://github.com/veomall/UVDocScanner',
             title: 'Computer vision screen capture',
             date: '2025-01-02',
             summary: 'Сканирование документов с экрана с помощью компьютерного зрения.',
         },
-        '/projects/UVTranslator.md': {
+        '/projects/UVTranslator.git': {
             type: 'file',
             url: 'https://github.com/veomall/UVTranslator',
             title: 'Instant translator',
             date: '2025-02-27',
             summary: 'Перевод текста из буфера обмена в реальном времени.',
         },
-        '/projects/UVDirectoryMapper.md': {
+        '/projects/UVDirectoryMapper.git': {
             type: 'file',
             url: 'https://github.com/veomall/UVDirectoryMapper',
             title: 'Directory mapper',
@@ -126,7 +126,21 @@ const commandProcessor = {
         // Extract command and arguments
         const args = input.trim().split(/\s+/);
         const command = args[0].toLowerCase();
-        
+
+        // Секретная команда (не показывается в автодополнении и help)
+        if (command === 'bastion') {
+            // Открыть ссылку в новой вкладке
+            if (typeof window !== 'undefined') {
+                window.open('https://veomall.itch.io/bastion-infiltration', '_blank', 'noopener');
+            }
+            return [{
+                text: 'Launching Bastion Infiltration...',
+                isLink: true,
+                url: 'https://veomall.itch.io/bastion-infiltration',
+                className: 'success'
+            }];
+        }
+
         // Process command
         switch (command) {
             case 'help':
