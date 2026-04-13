@@ -21,8 +21,22 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
     function updatePromptWithIP(directory) {
-        if (promptElement) {
-            const dir = directory !== undefined ? directory : (window.commandProcessor ? window.commandProcessor.currentDirectory : '/');
+        const dir = directory !== undefined ? directory : (window.commandProcessor ? window.commandProcessor.currentDirectory : '/');
+        const pathDisplay = dir === '/' ? '~' : dir;
+        
+        // Update individual prompt elements if they exist
+        const ipElement = document.getElementById('prompt-ip');
+        const pathElement = document.getElementById('prompt-path');
+        
+        if (ipElement) {
+            ipElement.textContent = userIP;
+        }
+        if (pathElement) {
+            pathElement.textContent = pathDisplay;
+        }
+        
+        // Fallback to old method if elements don't exist
+        if (promptElement && !ipElement) {
             promptElement.textContent = `veomall@${userIP}${dir === '/' ? '' : dir}:~$`;
         }
     }
