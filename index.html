@@ -6,40 +6,53 @@
     <title>veomall - Terminal Portfolio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script src="script.js" defer></script>
 </head>
 <body>
-    <div class="retro-container">
-        <div class="monitor">
-            <div class="screen">
-                <div class="scan-lines"></div>
-                <div class="glare"></div>
-                <div class="terminal">
-                    <div class="terminal-output" id="terminal-output"></div>
-                    <div class="terminal-input-line">
-                        <span class="prompt">veomall@terminal:/$</span>
-                        <input type="text" id="terminal-input" autofocus>
-                    </div>
+    <div class="crt-overlay"></div>
+    
+    <div class="terminal-wrapper">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <div class="terminal-buttons">
+                    <span class="terminal-btn close"></span>
+                    <span class="terminal-btn minimize"></span>
+                    <span class="terminal-btn maximize"></span>
                 </div>
+                <div class="terminal-title">veomall@portfolio — zsh</div>
+            </div>
+            <div class="terminal-output" id="terminal-output"></div>
+            <div class="terminal-input-line">
+                <span class="prompt">
+                    <span class="prompt-user">veomall</span>
+                    <span class="prompt-separator">@</span>
+                    <span class="prompt-host" id="prompt-ip">terminal</span>
+                    <span class="prompt-separator">:</span>
+                    <span class="prompt-path" id="prompt-path">~</span>
+                    <span class="prompt-separator">$</span>
+                </span>
+                <input type="text" id="terminal-input" autofocus autocomplete="off" spellcheck="false">
+                <span class="cursor-block"></span>
             </div>
         </div>
         
-        <!-- Wrap keyboard and mouse in a new div -->
         <div class="input-devices">
-            <!-- Keyboard element -->
             <div class="keyboard">
                 <div class="keyboard-row">
                     <div class="key" data-key="Escape">Esc</div>
+                    <div class="key-spacer"></div>
                     <div class="key" data-key="F1">F1</div>
                     <div class="key" data-key="F2">F2</div>
                     <div class="key" data-key="F3">F3</div>
                     <div class="key" data-key="F4">F4</div>
+                    <div class="key-spacer"></div>
                     <div class="key" data-key="F5">F5</div>
                     <div class="key" data-key="F6">F6</div>
                     <div class="key" data-key="F7">F7</div>
                     <div class="key" data-key="F8">F8</div>
+                    <div class="key-spacer"></div>
                     <div class="key" data-key="F9">F9</div>
                     <div class="key" data-key="F10">F10</div>
                     <div class="key" data-key="F11">F11</div>
@@ -59,7 +72,7 @@
                     <div class="key" data-key="0">0</div>
                     <div class="key" data-key="-">-</div>
                     <div class="key" data-key="=">=</div>
-                    <div class="key wide" data-key="Backspace">←</div>
+                    <div class="key wide" data-key="Backspace">⌫</div>
                 </div>
                 <div class="keyboard-row">
                     <div class="key wide" data-key="Tab">Tab</div>
@@ -78,7 +91,7 @@
                     <div class="key" data-key="\">\</div>
                 </div>
                 <div class="keyboard-row">
-                    <div class="key wide" data-key="CapsLock">Caps</div>
+                    <div class="key wider" data-key="CapsLock">Caps</div>
                     <div class="key" data-key="a">A</div>
                     <div class="key" data-key="s">S</div>
                     <div class="key" data-key="d">D</div>
@@ -90,7 +103,7 @@
                     <div class="key" data-key="l">L</div>
                     <div class="key" data-key=";">;</div>
                     <div class="key" data-key="'">'</div>
-                    <div class="key wider" data-key="Enter">Enter</div>
+                    <div class="key wider" data-key="Enter">↵</div>
                 </div>
                 <div class="keyboard-row">
                     <div class="key wider" data-key="Shift">Shift</div>
@@ -109,29 +122,28 @@
                 <div class="keyboard-row">
                     <div class="key" data-key="Control">Ctrl</div>
                     <div class="key" data-key="Alt">Alt</div>
-                    <div class="key widest" data-key=" ">______</div>
+                    <div class="key widest" data-key=" ">Space</div>
                     <div class="key" data-key="Alt">Alt</div>
                     <div class="key" data-key="Control">Ctrl</div>
                 </div>
             </div>
             
-            <!-- Mouse element -->
             <div class="mouse">
                 <div class="mouse-body">
                     <div class="mouse-button left"></div>
                     <div class="mouse-button right"></div>
                     <div class="mouse-scroll"></div>
                 </div>
-                <div class="mouse-cord"></div>
             </div>
         </div>
     </div>
     
     <div class="mobile-warning">
         <div class="warning-content">
-            <h2>Desktop Required</h2>
-            <p>This terminal experience is designed for desktop use.</p>
-            <p>Please visit on a desktop device for the full experience.</p>
+            <div class="warning-icon">⚠️</div>
+            <h2>Desktop Experience</h2>
+            <p>This terminal interface is optimized for desktop devices.</p>
+            <p>For the best experience, please visit on a desktop or laptop.</p>
             <button id="continue-anyway">Continue Anyway</button>
         </div>
     </div>

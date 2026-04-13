@@ -1,77 +1,23 @@
 :root {
-    --terminal-bg: #0D0C0F;
-    --terminal-main: #ffffff;
-    --lavender-glow-color: rgba(209, 179, 255, 0.6);
-    --terminal-text: var(--terminal-main);
-    --terminal-prompt: var(--terminal-main);
-    --terminal-cursor: var(--terminal-main);
-    --terminal-glow: 0 0 8px var(--lavender-glow-color); /* Усилим свечение */
-    --terminal-border: 1px solid var(--terminal-main);
-    --terminal-dim: var(--terminal-main);
-    --terminal-error: #e64856;
-    --terminal-success: #0cc503;
-    --terminal-warning: #c09b00;
-    --terminal-info: #f8f2a6;
-
-    /* Цвета и стили монитора */
-    --monitor-frame: #181818;
-    --monitor-frame-dark: #000;
-    --monitor-screen-border: #444;
-    --monitor-body: #888888;
-    --monitor-dark: #444444;
-    --monitor-bg: #111;
-    --monitor-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
-    --monitor-edge: var(--monitor-frame);
+    /* CLI Punk - Retro Terminal Colors */
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #0f0f0f;
+    --terminal-bg: #000000;
     
-    /* Цвета устройств ввода */
-    --keyboard-bg: #282828;
-    --keyboard-key-shadow: #777;
-    --mouse-button: #202020;
-    --mouse-border: #333;
-    --key-bg: #1a1a1a;
-    --key-text: #DDD;
-    --keyboard-key-bg: var(--key-bg);
-    --keyboard-key-color: var(--key-text);
-    --keyboard-key-border: #444;
-    --mouse-bg: #282828;
+    --text-primary: #c0c0c0;
+    --text-bright: #ffffff;
+    --text-dim: #666666;
     
-    /* Эффекты */
-    --crt-edge-glow: 0 0 20px var(--lavender-glow-color); /* Усилим */
-    --scanline-opacity: 0.1;
-    --glare-opacity: 0.08;
-}
-
-.terminal-output a {
-    color: var(--terminal-warning);
-    text-decoration: underline;
-    cursor: pointer;
-}
-
-.terminal-output a:hover {
-    color: var(--terminal-main);
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-/* Стили для выделенного текста в терминале */
-.terminal-output::selection {
-    background-color: var(--terminal-main); /* Фон выделения */
-    color: var(--terminal-bg); /* Цвет текста при выделении */
-}
-
-/* Изменения в стилях вывода для лучшей читаемости с новой палитрой */
-.command {
-    color: var(--terminal-main); /* Яркая команда */
-    font-weight: bold;
-}
-
-.command-incomplete {
-    color: var(--terminal-main); /* Приглушенный цвет для автодополнения */
-    font-style: italic;
-}
-
-.empty-command {
-    color: var(--terminal-main);
-    opacity: 0.8;
+    --accent-green: #00ff00;
+    --accent-green-dim: #008800;
+    --accent-amber: #ffb000;
+    --accent-cyan: #00ffff;
+    --accent-magenta: #ff00ff;
+    --accent-red: #ff3333;
+    
+    --border-color: #333333;
+    --scanline-color: rgba(0, 0, 0, 0.5);
+    --glow-strength: 0 0 10px;
 }
 
 * {
@@ -81,85 +27,44 @@
 }
 
 body {
-    font-family: 'Share Tech Mono', monospace;
-    color: var(--terminal-text);
-    height: 100vh;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: url(desktop.jpg) no-repeat center;
-    background-size: cover;
-}
-
-/* Retro container */
-.retro-container {
-    width: 100%;
-    max-width: 1200px;
-    height: 100vh;
-    max-height: 90vh;
+    font-family: 'VT323', monospace;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 20px;
-    transform-style: preserve-3d;
-    perspective: 1000px;
-}
-
-/* Input devices container */
-.input-devices {
-    display: flex;
-    width: 90%;
-    max-width: 800px;
-    justify-content: center;
-    align-items: flex-start;
-    margin-top: 20px;
-}
-
-/* Monitor styles */
-.monitor {
-    position: relative;
-    width: 90%;
-    max-width: 1000px;
-    aspect-ratio: 16/9;
-    background-color: var(--monitor-edge);
-    border-radius: 10px;
     padding: 20px;
-    box-shadow: var(--monitor-shadow);
-    border: 2px solid var(--monitor-frame-dark);
 }
 
-.screen {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    background-color: var(--terminal-bg);
-    overflow: hidden;
-    border-radius: 5px;
-    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
-    border: 1px solid var(--monitor-screen-border);
-}
-
-.scan-lines {
-    position: absolute;
+/* CRT Screen Effects */
+.crt-overlay {
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background: repeating-linear-gradient(
         0deg,
-        rgba(0, 0, 0, var(--scanline-opacity)),
-        rgba(0, 0, 0, var(--scanline-opacity)) 1px,
+        rgba(0, 0, 0, 0.15),
+        rgba(0, 0, 0, 0.15) 1px,
         transparent 1px,
         transparent 2px
     );
     pointer-events: none;
-    z-index: 10;
-    opacity: 0.7;
+    z-index: 1000;
+    animation: scanlines 0.1s linear infinite;
 }
 
-.glare {
+@keyframes scanlines {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(2px); }
+}
+
+.crt-overlay::before {
+    content: '';
     position: absolute;
     top: 0;
     left: 0;
@@ -167,35 +72,86 @@ body {
     height: 100%;
     background: radial-gradient(
         ellipse at center,
-        rgba(255, 255, 255, var(--glare-opacity)),
-        transparent 70%
+        transparent 0%,
+        rgba(0, 0, 0, 0.4) 100%
     );
     pointer-events: none;
-    z-index: 9;
-    opacity: 0.6;
 }
 
-.terminal {
-    position: relative;
+/* Terminal Wrapper - Main Layout */
+.terminal-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
     width: 100%;
-    height: 100%;
-    padding: 15px;
-    box-sizing: border-box;
-    overflow: hidden;
-    font-family: 'Courier New', monospace;
-    color: var(--terminal-text);
-    text-shadow: var(--terminal-glow);
-    line-height: 1.5;
+    max-width: 1200px;
 }
 
+/* Terminal Container */
+.terminal-container {
+    width: 100%;
+    background: var(--terminal-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 4px;
+    box-shadow: 
+        0 0 20px rgba(0, 255, 0, 0.1),
+        inset 0 0 10px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 70vh;
+    max-height: 600px;
+}
+
+.terminal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: rgba(0, 255, 0, 0.05);
+    border-bottom: 1px solid var(--accent-green-dim);
+}
+
+.terminal-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.terminal-btn {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.terminal-btn.close {
+    background: #ff5f56;
+}
+
+.terminal-btn.minimize {
+    background: #ffbd2e;
+}
+
+.terminal-btn.maximize {
+    background: #27ca40;
+}
+
+.terminal-title {
+    color: var(--text-dim);
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Terminal Output - Scrollable */
 .terminal-output {
-    height: calc(100% - 30px);
+    flex: 1;
     overflow-y: auto;
+    padding: 15px;
     word-wrap: break-word;
     white-space: pre-wrap;
-    margin-bottom: 10px;
     scrollbar-width: thin;
-    scrollbar-color: var(--terminal-dim) var(--terminal-bg);
+    scrollbar-color: var(--accent-green-dim) var(--terminal-bg);
     user-select: text;
     cursor: text;
 }
@@ -209,20 +165,44 @@ body {
 }
 
 .terminal-output::-webkit-scrollbar-thumb {
-    background-color: var(--terminal-dim);
-    border-radius: 4px;
-    border: 2px solid var(--terminal-bg);
+    background-color: var(--accent-green-dim);
+    border: 1px solid var(--accent-green);
 }
 
+.terminal-output::-webkit-scrollbar-thumb:hover {
+    background-color: var(--accent-green);
+}
+
+/* Input Line */
 .terminal-input-line {
     display: flex;
     align-items: center;
+    padding: 8px 12px;
+    background: rgba(0, 255, 0, 0.05);
+    border-top: 1px solid var(--accent-green-dim);
+    gap: 8px;
 }
 
 .prompt {
-    color: var(--terminal-prompt);
-    margin-right: 5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
     white-space: nowrap;
+    color: var(--accent-green);
+    font-weight: bold;
+    text-shadow: 0 0 5px var(--accent-green);
+}
+
+.prompt-user {
+    color: var(--accent-green);
+}
+
+.prompt-host {
+    color: var(--accent-cyan);
+}
+
+.prompt-path {
+    color: var(--accent-cyan);
 }
 
 #terminal-input {
@@ -230,20 +210,21 @@ body {
     background: transparent;
     border: none;
     outline: none;
-    color: var(--terminal-text);
+    color: var(--text-bright);
     font-family: inherit;
     font-size: inherit;
-    text-shadow: inherit;
-    caret-color: var(--terminal-cursor);
+    text-shadow: 0 0 5px var(--accent-green);
+    caret-color: transparent;
+    min-width: 0;
 }
 
-.cursor {
+.cursor-block {
     display: inline-block;
-    width: 10px;
-    height: 16px;
-    background-color: var(--terminal-cursor);
+    width: 12px;
+    height: 22px;
+    background: var(--accent-green);
     animation: blink 1s step-end infinite;
-    margin-left: 2px;
+    box-shadow: 0 0 10px var(--accent-green);
 }
 
 @keyframes blink {
@@ -251,303 +232,298 @@ body {
     50% { opacity: 0; }
 }
 
-.monitor-base {
-    height: 30px;
-    background-color: var(--monitor-body);
-    width: 60%;
-    margin: -1px auto 0;
-    border-radius: 0 0 50% 50%;
-    border: 2px solid var(--monitor-dark);
-    border-top: none;
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+/* Output Styling */
+.output-line {
+    margin-bottom: 4px;
+    line-height: 1.4;
 }
 
-/* Keyboard styles */
+.command {
+    color: var(--accent-green);
+    font-weight: bold;
+}
+
+.error {
+    color: var(--accent-red);
+    text-shadow: 0 0 5px var(--accent-red);
+}
+
+.success {
+    color: var(--accent-green);
+    text-shadow: 0 0 5px var(--accent-green);
+}
+
+.warning {
+    color: var(--accent-amber);
+    text-shadow: 0 0 5px var(--accent-amber);
+}
+
+.info {
+    color: var(--accent-cyan);
+    text-shadow: 0 0 5px var(--accent-cyan);
+}
+
+.terminal-output a {
+    color: var(--accent-cyan);
+    text-decoration: none;
+    border-bottom: 1px dashed var(--accent-cyan);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.terminal-output a:hover {
+    color: var(--accent-green);
+    border-bottom-color: var(--accent-green);
+    background-color: rgba(0, 255, 0, 0.1);
+}
+
+/* Input Devices */
+.input-devices {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Keyboard - Retro CLI Style */
 .keyboard {
-    width: auto;
-    background-color: var(--keyboard-bg);
-    border-radius: 5px;
-    padding: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-    margin-right: 15px;
+    background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+    border: 3px solid #333;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.5),
+        inset 0 0 20px rgba(0, 0, 0, 0.5);
+    display: grid;
+    gap: 8px;
 }
 
 .keyboard-row {
     display: flex;
-    /* Убираем justify-content: center, flexbox сам распределит пространство */
-    margin-bottom: 5px;
-    gap: 5px; /* Добавим небольшой зазор между клавишами */
+    gap: 6px;
+    justify-content: center;
 }
 
 .key {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--keyboard-key-bg);
-    color: var(--keyboard-key-color);
-    border: 1px solid var(--keyboard-key-border);
+    background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+    border: 2px solid #333;
     border-radius: 4px;
-    box-shadow: var(--keyboard-key-shadow);
-    padding: 5px;
-    height: 30px;
-    /* margin: 0 2px; - убираем, будем использовать gap */
-    font-size: 12px;
-    transition: all 0.1s;
+    color: var(--accent-green);
+    font-family: 'VT323', monospace;
+    font-size: 14px;
+    font-weight: bold;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    text-shadow: 0 0 5px var(--accent-green);
+    box-shadow: 
+        0 4px 0 #0a0a0a,
+        0 5px 10px rgba(0, 0, 0, 0.5);
+    transition: all 0.1s ease;
     user-select: none;
-    
-    /* Ключевое изменение: задаем базовую ширину и разрешаем расти */
-    flex: 1 1 0; /* flex-grow: 1, flex-shrink: 1, flex-basis: 0 */
-    min-width: 30px; /* Сохраним минимальную ширину */
+}
+
+.key:hover {
+    background: linear-gradient(145deg, #3a3a3a, #2a2a2a);
+    border-color: var(--accent-green-dim);
+    box-shadow: 
+        0 2px 0 #0a0a0a,
+        0 3px 10px rgba(0, 255, 0, 0.3);
+    transform: translateY(2px);
+}
+
+.key:active,
+.key.active {
+    background: linear-gradient(145deg, #1a1a1a, #0a0a0a);
+    border-color: var(--accent-green);
+    box-shadow: 
+        0 0 0 #0a0a0a,
+        0 0 5px rgba(0, 255, 0, 0.5);
+    transform: translateY(4px);
+    color: var(--text-bright);
+}
+
+.key-spacer {
+    width: 30px;
 }
 
 .key.wide {
-    flex-grow: 1.5;
+    width: 70px;
 }
 
 .key.wider {
-    flex-grow: 2.5;
+    width: 85px;
 }
 
 .key.widest {
-    flex-grow: 6;
+    width: 280px;
 }
 
-.key:active, .key.active, .key.pressed {
-    transform: translateY(2px);
-    box-shadow: none;
-    background-color: #444;
-}
-
-/* Mouse styles */
+/* Mouse - Retro Style */
 .mouse {
-    position: relative;
-    transform-style: preserve-3d;
-    transition: transform 0.3s ease;
-    margin-left: 50px;
-    margin-top: 50px;
-    width: 60px;
-    height: 90px;
+    perspective: 500px;
 }
 
 .mouse-body {
-    width: 60px;
-    height: 90px;
-    background-color: var(--mouse-bg);
-    border-radius: 30px;
+    width: 70px;
+    height: 110px;
+    background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+    border: 3px solid #333;
+    border-radius: 35px 35px 25px 25px;
     position: relative;
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.5),
+        inset 0 0 20px rgba(0, 0, 0, 0.5);
     display: flex;
     flex-direction: column;
     align-items: center;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    border: 1px solid var(--mouse-border);
-    transform-origin: center center;
+    padding-top: 15px;
 }
 
 .mouse-button {
-    width: 26px;
-    height: 40px;
-    background-color: var(--mouse-button);
-    border: 1px solid var(--mouse-border);
-    transition: all 0.1s;
-    position: absolute;
-    top: 2px;
+    width: 28px;
+    height: 35px;
+    background: linear-gradient(145deg, #3a3a3a, #2a2a2a);
+    border: 2px solid #333;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.1s ease;
 }
 
 .mouse-button.left {
-    left: 2px;
-    border-right: none;
-    border-top-left-radius: 27px;
+    margin-right: 4px;
 }
 
 .mouse-button.right {
-    right: 2px;
-    border-left: none;
-    border-top-right-radius: 27px;
+    margin-left: 4px;
 }
 
-.mouse-button.active, .mouse-button.pressed {
+.mouse-button:hover {
+    background: linear-gradient(145deg, #4a4a4a, #3a3a3a);
+    border-color: var(--accent-green-dim);
+}
+
+.mouse-button:active {
+    background: linear-gradient(145deg, #1a1a1a, #0a0a0a);
+    border-color: var(--accent-green);
     transform: translateY(2px);
-    background-color: #444;
 }
 
 .mouse-scroll {
-    width: 10px;
-    height: 18px;
-    background-color: var(--keyboard-key-color);
-    border-radius: 5px;
-    opacity: 0.8;
-    position: absolute;
-    top: 15px;
-    left: 50%;
-    transform: translateX(-50%);
+    width: 12px;
+    height: 25px;
+    background: linear-gradient(145deg, #3a3a3a, #2a2a2a);
+    border: 2px solid #333;
+    border-radius: 6px;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: all 0.1s ease;
 }
 
-/* Hide mouse cord */
-.mouse-cord {
-    display: none;
+.mouse-scroll:hover {
+    background: linear-gradient(145deg, #4a4a4a, #3a3a3a);
+    border-color: var(--accent-green-dim);
 }
 
-/* Output styling */
-.output-line {
-    margin-bottom: 0px;
-    text-shadow: 0 0 5px var(--terminal-glow);
-    line-height: 1.3;
+.mouse-scroll:active {
+    background: linear-gradient(145deg, #1a1a1a, #0a0a0a);
+    border-color: var(--accent-green);
 }
 
-.error {
-    color: var(--terminal-error);
-}
-
-.success {
-    color: var(--terminal-success);
-}
-
-.warning {
-    color: var(--terminal-warning);
-}
-
-.info {
-    color: var(--terminal-info);
-    font-weight: bold;
-}
-
-/* Add a class for command input */
-.command {
-    color: #AADDFF;
-    font-weight: bold;
-}
-
-/* Style for the incomplete command during tab completion */
-.command-incomplete {
-    color: #88CCEE;
-    font-style: italic;
-}
-
-/* Add a style for the empty command (just pressing Enter) */
-.empty-command {
-    color: #77AADD; /* Slightly more dimmed than regular commands */
-    opacity: 0.8;
-}
-
-/* Mobile warning */
+/* Mobile Warning */
 .mobile-warning {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.9);
+    background: var(--terminal-bg);
     display: none;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 2000;
 }
 
 .warning-content {
-    background-color: var(--terminal-bg);
-    color: var(--terminal-text);
-    border: var(--terminal-border);
-    padding: 20px;
     text-align: center;
-    border-radius: 5px;
-    max-width: 80%;
+    padding: 40px;
+    border: 2px solid var(--accent-green);
+    box-shadow: 0 0 20px var(--accent-green);
+}
+
+.warning-icon {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.warning-content h2 {
+    color: var(--accent-green);
+    margin-bottom: 15px;
+    text-shadow: 0 0 10px var(--accent-green);
+}
+
+.warning-content p {
+    color: var(--text-primary);
+    margin: 10px 0;
 }
 
 #continue-anyway {
-    background-color: var(--keyboard-key-bg);
-    color: var(--terminal-text);
-    border: 1px solid var(--keyboard-key-border);
-    padding: 10px 20px;
-    margin-top: 20px;
-    border-radius: 5px;
+    background: transparent;
+    color: var(--accent-green);
+    border: 2px solid var(--accent-green);
+    padding: 15px 30px;
+    margin-top: 25px;
+    font-family: 'VT323', monospace;
+    font-size: 18px;
     cursor: pointer;
-    font-family: inherit;
-    transition: all 0.2s;
+    text-shadow: 0 0 5px var(--accent-green);
+    box-shadow: 0 0 10px var(--accent-green);
+    transition: all 0.2s ease;
 }
 
 #continue-anyway:hover {
-    background-color: #444;
+    background: var(--accent-green);
+    color: var(--terminal-bg);
+    box-shadow: 0 0 20px var(--accent-green);
 }
 
-/* Media queries */
+/* Responsive */
 @media (max-width: 768px) {
     .mobile-warning {
         display: flex;
     }
     
-    .retro-container {
-        max-width: 100%;
-    }
-    
-    .monitor {
-        width: 95%;
+    .terminal-container {
+        height: 80vh;
     }
     
     .keyboard {
-        width: 95%;
+        transform: scale(0.7);
     }
     
-    .key {
-        min-width: 20px;
-        font-size: 10px;
-    }
-}
-
-/* Responsive adjustments */
-@media (max-height: 800px) {
-    .retro-container {
-        transform: scale(0.8);
-        transform-origin: top center;
-    }
-}
-
-/* Boot animation */
-.boot-animation {
-    animation: turnOn 1.5s forwards, flicker 5s 2s infinite;
-}
-
-@keyframes turnOn {
-    0% {
-        opacity: 0;
+    .mouse {
         transform: scale(0.8);
     }
-    20% {
-        opacity: 1;
-        transform: scale(1.05);
-    }
-    30% {
-        transform: scale(0.95);
-    }
-    40% {
-        transform: scale(1.02);
-    }
-    60% {
-        transform: scale(0.98);
-    }
-    80% {
-        transform: scale(1.01);
-    }
-    100% {
-        transform: scale(1);
+    
+    .input-devices {
+        gap: 20px;
     }
 }
 
-@keyframes flicker {
-    0% { opacity: 1.0; }
-    5% { opacity: 0.8; }
-    10% { opacity: 1.0; }
-    15% { opacity: 0.9; }
-    20% { opacity: 1.0; }
-    25% { opacity: 0.7; }
-    30% { opacity: 1.0; }
-    35% { opacity: 0.9; }
-    40% { opacity: 1.0; }
-    45% { opacity: 0.8; }
-    50% { opacity: 1.0; }
-    55% { opacity: 0.9; }
-    60% { opacity: 1.0; }
-    70% { opacity: 0.7; }
-    80% { opacity: 1.0; }
-    90% { opacity: 0.9; }
-    100% { opacity: 1.0; }
+@media (max-height: 600px) {
+    .terminal-container {
+        height: 75vh;
+    }
+    
+    body {
+        padding: 10px;
+    }
+    
+    .terminal-wrapper {
+        gap: 15px;
+    }
 }
