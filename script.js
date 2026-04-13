@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const terminalInput = document.getElementById('terminal-input');
     const continueButton = document.getElementById('continue-anyway');
     const promptPathElement = document.getElementById('prompt-path');
+    const promptIpElement = document.getElementById('prompt-ip');
     
     let userIP = 'terminal';
 
@@ -11,10 +12,16 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             userIP = data.ip || 'terminal';
+            if (promptIpElement) {
+                promptIpElement.textContent = userIP.substring(0, 12) + (userIP.length > 12 ? '...' : '');
+            }
             updatePrompt();
         })
         .catch(() => {
             userIP = 'terminal';
+            if (promptIpElement) {
+                promptIpElement.textContent = 'terminal';
+            }
             updatePrompt();
         });
 
@@ -77,7 +84,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const cmdLine = document.createElement('div');
         cmdLine.className = 'output-line';
         
-        const prompt = `<span class="prompt"><span class="prompt-symbol">➜</span> <span class="prompt-path">${window.commandProcessor ? window.commandProcessor.currentDirectory : '~'}</span> <span class="prompt-symbol">$</span></span>`;
+        const currentPath = window.commandProcessor ? window.commandProcessor.currentDirectory : '~';
+        const prompt = `<span class="prompt"><span class="prompt-user">veomall</span><span class="prompt-separator">@</span><span class="prompt-host">${promptIpElement ? promptIpElement.textContent : 'terminal'}</span><span class="prompt-separator">:</span><span class="prompt-path">${currentPath}</span><span class="prompt-separator">$</span></span>`;
         const command = `<span class="command">${cmd}</span>`;
         cmdLine.innerHTML = `${prompt} ${command}`;
         terminalOutput.appendChild(cmdLine);
@@ -155,7 +163,22 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Click to focus
-    document.querySelector('.terminal').addEventListener('click', () => {
+    document.querySelector('.terminal-container').addEventListener('click', () => {
         terminalInput.focus();
+    });
+
+    // Keyboard interaction
+    document.querySelectorAll('.key').forEach(key => {
+        key.addEventListener('click', function() {
+            const keyValue = this.getAttribute('data-key');
+            if (keyValue === 'Enter') {
+                terminalInput.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+            } else if (keyValue === 'Backspace') {
+                terminalInput.value = terminalInput.value.slice(0, -1);
+            } else if (keyValue && keyValue.length === 1) {
+                terminalInput.value += keyValue;
+            }
+            terminalInput.focus();
+        });
     });
 });
